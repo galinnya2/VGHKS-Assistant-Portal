@@ -1,0 +1,5 @@
+{
+  "name": "VGHKS Surgical Code Finder",
+  "description": "An intelligent search platform to quickly find VGHKS surgical codes using keywords. Includes an admin panel to manage the code database, with all data persisted in the browser's local storage.",
+  "requestFramePermissions": []
+}
