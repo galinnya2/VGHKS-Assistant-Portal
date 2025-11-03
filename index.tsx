@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -30,7 +29,7 @@ const SearchIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 
 const GearIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-1.007 1.11-.962a8.714 8.714 0 012.59 0c.55.045 1.02.42 1.11.962l.69 4.162c.493.296.976.641 1.416 1.024l3.65-1.58c.53-.23.904-.693 1.042-1.233a8.71 8.71 0 010 2.466c-.138.54-.512 1.003-1.042 1.233l-3.65 1.58a8.71 8.71 0 01-1.416 1.024l-.69 4.162c-.09.542-.56 1.007-1.11.962a8.714 8.714 0 01-2.59 0c-.55-.045-1.02-.42-1.11-.962l-.69-4.162a8.71 8.71 0 01-1.416-1.024l-3.65-1.58c-.53-.23-.904-.693-1.042-1.233a8.71 8.71 0 010-2.466c.138-.54.512 1.003 1.042 1.233l3.65-1.58c.44-.183.923-.528 1.416-1.024l.69-4.162z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-1.007 1.11-.962a8.714 8.714 0 012.59 0c.55.045 1.02.42 1.11.962l.69 4.162c.493.296.976.641 1.416 1.024l3.65-1.58c.53-.23.904-.693 1.042-1.233a8.71 8.71 0 010 2.466c-.138.54-.512 1.003-1.042 1.233l-3.65 1.58a8.71 8.71 0 01-1.416 1.024l-.69 4.162c-.09.542-.56 1.007-1.11.962a8.714 8.714 0 01-2.59 0c-.55-.045-1.02-.42-1.11-.962l-.69-4.162a8.71 8.71 0 01-1.416-1.024l-3.65-1.58c-.53-.23-.904-.693-1.042-1.233a8.71 8.71 0 010-2.466c.138.54.512 1.003 1.042 1.233l3.65-1.58c.44-.183.923-.528 1.416-1.024l.69-4.162z" />
     <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
   </svg>
 );
@@ -433,35 +432,6 @@ const INITIAL_SELF_PAID_ITEMS: SelfPaidItem[] = [
 ];
 
 
-// Hooks
-function useLocalStorage<T,>(key: string, initialValue: T | (() => T)) {
-  const [value, setValue] = useState<T>(() => {
-    const savedValue = localStorage.getItem(key);
-    if (savedValue) {
-      try {
-        return JSON.parse(savedValue);
-      } catch (error) {
-        console.error('Error parsing JSON from localStorage', error);
-        localStorage.removeItem(key);
-      }
-    }
-    if (initialValue instanceof Function) {
-      return initialValue();
-    }
-    return initialValue;
-  });
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.error('Error setting item to localStorage', error);
-    }
-  }, [key, value]);
-
-  return [value, setValue] as const;
-}
-
 // Components
 const HighlightedText: React.FC<{ text: string; highlight: string }> = ({ text, highlight }) => {
   if (!highlight.trim()) {
@@ -599,7 +569,7 @@ const SurgicalCodeAdminView: React.FC<{ codes: SurgicalCode[]; setCodes: React.D
 
 const SurgicalCodeFinder: React.FC = () => {
     const [isAdminView, setIsAdminView] = useState(false);
-    const [codes, setCodes] = useLocalStorage<SurgicalCode[]>('surgicalCodes', INITIAL_SURGICAL_CODES);
+    const [codes, setCodes] = useState<SurgicalCode[]>(INITIAL_SURGICAL_CODES);
     return (
         <>
             <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8">
@@ -712,7 +682,7 @@ const SelfPaidItemAdminView: React.FC<{ items: SelfPaidItem[]; setItems: React.D
 
 const SelfPaidFinder: React.FC = () => {
     const [isAdminView, setIsAdminView] = useState(false);
-    const [items, setItems] = useLocalStorage<SelfPaidItem[]>('selfPaidItems', INITIAL_SELF_PAID_ITEMS);
+    const [items, setItems] = useState<SelfPaidItem[]>(INITIAL_SELF_PAID_ITEMS);
     return (
         <>
             <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8">
