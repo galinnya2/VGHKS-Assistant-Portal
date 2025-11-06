@@ -346,6 +346,7 @@ const INITIAL_SURGICAL_CODES: SurgicalCode[] = [
     { id: '43411J', code: '43411J', name_ch: '膀胱鏡檢', name_en: 'Cystoscopy' },
     { id: '64031I', code: '64031I', name_ch: '產後出血確認出血', name_en: 'Ante/Post partum hemorrhange, Check bleeding' },  
     { id: '43191A', code: '43191A', name_ch: '診斷性腹腔鏡', name_en: 'Diagnostic laparoscopy' },
+    { id: '77830J', code: '77830J', name_ch: '近紅外線內視鏡輔助微創手術 / 前哨淋巴結', name_en: 'Near infrared assisted endoscopic surgery / ICG / Sentinel LN' },
 ];
 
 const CATEGORIES = ["手術器械", "止血", "防沾黏", "傷口敷料", "縫線", "病理", "HIPEC", "檢體袋", "傷口撐開器", "其他"];
