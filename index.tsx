@@ -509,6 +509,10 @@ const INITIAL_PHONE_DIRECTORY_ITEMS: PhoneDirectoryItem[] = [
     { id: '76422', category: '檢查單位', name: 'PET scan', badge_id: '', extension: '76422' },
     { id: '76210', category: '檢查單位', name: 'MRI報告', badge_id: '', extension: '76210' },
     { id: '76300', category: '檢查單位', name: '病理櫃台/pathology', badge_id: '', extension: '76300' },
+    { id: '77060', category: '急診', name: '急診外科/外急/外傷', badge_id: '', extension: '77060' },
+    { id: '77025', category: '急診', name: '急診內科/內急', badge_id: '', extension: '77025' }
+    { id: '77011', category: '急診', name: '急救間', badge_id: '', extension: '77011' }
+    { id: '77009', category: '急診', name: '急診檢傷', badge_id: '', extension: '77009' },
 ];
 
 
