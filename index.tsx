@@ -447,7 +447,7 @@ const INITIAL_SELF_PAID_ITEMS: SelfPaidItem[] = [
     { id: '55900', category: '其他', code: '55900', name_ch: '3D腹腔鏡', name_en: '3D Laparoscopy' },
 ];
 
-const PHONE_CATEGORIES = ["主治醫師", "住院醫師", "專科護理師", "檢查單位", "門診", "產房", "個管師"];
+const PHONE_CATEGORIES = ["主治醫師", "住院醫師", "專科護理師", "檢查單位", "門診", "產房", "個管師", "急診"];
 
 const INITIAL_PHONE_DIRECTORY_ITEMS: PhoneDirectoryItem[] = [
     { id: '3721B', category: '主治醫師', name: '李如悅', badge_id: '3721B', extension: '70656' },
@@ -510,8 +510,8 @@ const INITIAL_PHONE_DIRECTORY_ITEMS: PhoneDirectoryItem[] = [
     { id: '76210', category: '檢查單位', name: 'MRI報告', badge_id: '', extension: '76210' },
     { id: '76300', category: '檢查單位', name: '病理櫃台/pathology', badge_id: '', extension: '76300' },
     { id: '77060', category: '急診', name: '急診外科/外急/外傷', badge_id: '', extension: '77060' },
-    { id: '77025', category: '急診', name: '急診內科/內急', badge_id: '', extension: '77025' }
-    { id: '77011', category: '急診', name: '急救間', badge_id: '', extension: '77011' }
+    { id: '77025', category: '急診', name: '急診內科/內急', badge_id: '', extension: '77025' },
+    { id: '77011', category: '急診', name: '急救間', badge_id: '', extension: '77011' },
     { id: '77009', category: '急診', name: '急診檢傷', badge_id: '', extension: '77009' },
 ];
 
@@ -564,6 +564,7 @@ const PortalView: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
                     onClick={() => setView('phoneDirectory')}
                     className="w-64 bg-purple-600 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105 flex justify-center items-center gap-2"
                 >
+                    <PhoneIcon className="w-6 h-6" />
                     常用電話查詢
                 </button>
             </div>
