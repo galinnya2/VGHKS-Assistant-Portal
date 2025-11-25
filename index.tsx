@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -17,7 +18,15 @@ interface SelfPaidItem {
   name_en: string;
 }
 
-type View = 'portal' | 'surgical' | 'selfPaid';
+interface PhoneDirectoryItem {
+  id: string;
+  category: string;
+  name: string;
+  badge_id: string;
+  extension: string;
+}
+
+type View = 'portal' | 'surgical' | 'selfPaid' | 'phoneDirectory';
 
 
 // Icons
@@ -61,6 +70,12 @@ const CloseIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 const HomeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955a.75.75 0 011.06 0l8.955 8.955M3 11.25V21a.75.75 0 00.75.75h4.5a.75.75 0 00.75-.75V16.5a.75.75 0 01.75-.75h2.5a.75.75 0 01.75.75v4.5a.75.75 0 00.75.75h4.5a.75.75 0 00.75-.75V11.25m-18 0A23.955 23.955 0 0112 3c4.618 0 8.92 1.413 12.5 3.75" />
+  </svg>
+);
+
+const PhoneIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
   </svg>
 );
 
@@ -432,6 +447,68 @@ const INITIAL_SELF_PAID_ITEMS: SelfPaidItem[] = [
     { id: '55900', category: '其他', code: '55900', name_ch: '3D腹腔鏡', name_en: '3D Laparoscopy' },
 ];
 
+const PHONE_CATEGORIES = ["主治醫師", "住院醫師", "專科護理師", "檢查單位", "門診", "產房", "個管師"];
+
+const INITIAL_PHONE_DIRECTORY_ITEMS: PhoneDirectoryItem[] = [
+    { id: '3721B', category: '主治醫師', name: '李如悅', badge_id: '3721B', extension: '70656' },
+    { id: '0779J', category: '主治醫師', name: '劉文雄', badge_id: '0779J', extension: '70667' },
+    { id: '0749E', category: '主治醫師', name: '卓福男', badge_id: '0749E', extension: '70650' },
+    { id: '2787C', category: '主治醫師', name: '陳三農', badge_id: '2787C', extension: '70663' },
+    { id: '3837B', category: '主治醫師', name: '林立德', badge_id: '3837B', extension: '70661' },
+    { id: '3578J', category: '主治醫師', name: '崔冠濠', badge_id: '3578J', extension: '70653' },
+    { id: '0158E', category: '主治醫師', name: '蔣安仁', badge_id: '0158E', extension: '70668' },
+    { id: '4618D', category: '主治醫師', name: '蔡曉文', badge_id: '4618D', extension: '70198' },
+    { id: '4481D', category: '主治醫師', name: '陳其葳', badge_id: '4481D', extension: '70043' },
+    { id: 'H048D', category: '主治醫師', name: '林佩萱', badge_id: 'H048D', extension: '70674' },
+    { id: 'F964A', category: '主治醫師', name: '陳昱蓁', badge_id: 'F964A', extension: '70666' },
+    { id: '4861F', category: '主治醫師', name: '蔡祥維', badge_id: '4861F', extension: '70412' },
+    { id: 'A067J', category: '主治醫師', name: '林柏文', badge_id: 'A067J', extension: '70597' },
+    { id: 'A543G', category: '主治醫師', name: '周靜汶', badge_id: 'A543G', extension: '70161' },
+    { id: 'H056E', category: '住院醫師', name: '宋潔', badge_id: 'H056E', extension: '70478' },
+    { id: 'A183E', category: '住院醫師', name: '劉相宜', badge_id: 'A183E', extension: '70694' },
+    { id: 'A294J', category: '住院醫師', name: '李宜姍', badge_id: 'A294J', extension: '70511' },
+    { id: 'A295G', category: '住院醫師', name: '許乃元', badge_id: 'A295G', extension: '70513' },
+    { id: 'A385E', category: '住院醫師', name: '魯羽珈', badge_id: 'A385E', extension: '70068' },
+    { id: 'H752H', category: '住院醫師', name: '嚴心勵', badge_id: 'H752H', extension: '70063' },
+    { id: 'A507E', category: '住院醫師', name: '黃雙雙', badge_id: 'A507E', extension: '70864' },
+    { id: 'A636F', category: '住院醫師', name: '顏嫚萱', badge_id: 'A636F', extension: '70596' },
+    { id: 'U546', category: '住院醫師', name: '許嘉芸', badge_id: 'U546', extension: '70247' },
+    { id: 'U611', category: '住院醫師', name: '許湘鈴', badge_id: 'U611', extension: '70539' },
+    { id: '0262', category: '專科護理師', name: '李青萍', badge_id: '0262', extension: '79597' },
+    { id: '1934', category: '專科護理師', name: '安雅芬', badge_id: '1934', extension: '79652' },
+    { id: '3217', category: '專科護理師', name: '林子涵', badge_id: '3217', extension: '79657' },
+    { id: '4228', category: '專科護理師', name: '謝佳玲', badge_id: '4228', extension: '79598' },
+    { id: '4531', category: '專科護理師', name: '莊亦虹', badge_id: '4531', extension: '79662' },
+    { id: '5833', category: '專科護理師', name: '黃美娟', badge_id: '5833', extension: '79679' },
+    { id: '4522', category: '專科護理師', name: '魏佩秋', badge_id: '4522', extension: '79101' },
+    { id: 'F499', category: '專科護理師', name: '黃湘羽', badge_id: 'F499', extension: '79665' },
+    { id: '74016', category: '檢查單位', name: '3F超音波室', badge_id: '', extension: '74016' },
+    { id: '77094', category: '檢查單位', name: '1F門診超音波室', badge_id: '', extension: '77094' },
+    { id: '78231', category: '檢查單位', name: '生殖中心', badge_id: '', extension: '78231' },
+    { id: '74015', category: '檢查單位', name: '優生遺傳實驗室/素娟', badge_id: '', extension: '74015' },
+    { id: '77041', category: '檢查單位', name: '尿動室', badge_id: '', extension: '77041' },
+    { id: '78276', category: '門診', name: '門診診前', badge_id: '', extension: '78276' },
+    { id: '77004', category: '門診', name: '婦產科2診', badge_id: '', extension: '77004' },
+    { id: '77043', category: '門診', name: '婦產科3診', badge_id: '', extension: '77043' },
+    { id: '77044', category: '門診', name: '婦產科5診', badge_id: '', extension: '77044' },
+    { id: '78192', category: '產房', name: '產房護理站1', badge_id: '', extension: '78192' },
+    { id: '74215', category: '產房', name: '產房護理站2', badge_id: '', extension: '74215' },
+    { id: '74035', category: '產房', name: '產房手術室1/產一/產1', badge_id: '', extension: '74035' },
+    { id: '74036', category: '產房', name: '產房手術室2/產二/產2', badge_id: '', extension: '74036' },
+    { id: '74037', category: '產房', name: '產房手術室3/產三/產3/C/S', badge_id: '', extension: '74037' },
+    { id: '74038', category: '產房', name: '取卵手術室/無菌室', badge_id: '', extension: '74038' },
+    { id: '74039', category: '產房', name: '產房恢復室', badge_id: '', extension: '74039' },
+    { id: '74030', category: '個管師', name: '產科個管師/沛芸/雅菁', badge_id: '', extension: '74030' },
+    { id: '79806', category: '個管師', name: '婦癌個管師/文英', badge_id: '', extension: '79806' },
+    { id: '76208', category: '檢查單位', name: '放射線櫃台/問CT報告', badge_id: '', extension: '76208' },
+    { id: '76228', category: '檢查單位', name: 'HSG/salpingo', badge_id: '', extension: '76228' },
+    { id: '76400', category: '檢查單位', name: 'Bone scan/WBBS', badge_id: '', extension: '76400' },
+    { id: '76421', category: '檢查單位', name: 'PET scan', badge_id: '', extension: '76421' },
+    { id: '76422', category: '檢查單位', name: 'PET scan', badge_id: '', extension: '76422' },
+    { id: '76210', category: '檢查單位', name: 'MRI報告', badge_id: '', extension: '76210' },
+    { id: '76300', category: '檢查單位', name: '病理櫃台/pathology', badge_id: '', extension: '76300' },
+];
+
 
 // Components
 const HighlightedText: React.FC<{ text: string; highlight: string }> = ({ text, highlight }) => {
@@ -476,6 +553,12 @@ const PortalView: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
                     className="w-64 bg-green-600 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-green-700 transition-transform transform hover:scale-105"
                 >
                     自費項目查詢
+                </button>
+                <button 
+                    onClick={() => setView('phoneDirectory')}
+                    className="w-64 bg-purple-600 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105 flex justify-center items-center gap-2"
+                >
+                    常用電話查詢
                 </button>
             </div>
         </div>
@@ -694,6 +777,122 @@ const SelfPaidFinder: React.FC = () => {
     );
 };
 
+// --- Phone Directory Components ---
+
+const PhoneDirectorySearchView: React.FC<{ items: PhoneDirectoryItem[] }> = ({ items }) => {
+  const [query, setQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const filteredItems = useMemo(() => {
+    const categorized = selectedCategory ? items.filter(i => i.category === selectedCategory) : items;
+    const keywords = query.toLowerCase().split(' ').filter(k => k.trim() !== '');
+    if (keywords.length === 0) return categorized;
+    return categorized.filter(item => {
+      const searchableText = `${item.name} ${item.extension} ${item.badge_id} ${item.category}`.toLowerCase();
+      return keywords.every(keyword => searchableText.includes(keyword));
+    });
+  }, [query, items, selectedCategory]);
+
+  return (
+    <div className="space-y-8">
+      <div>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2">Search Phone Directory</h2>
+        <p className="text-gray-600">Select a category or enter keywords (Name, ID, Ext) to find a contact.</p>
+      </div>
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><SearchIcon className="h-5 w-5 text-gray-400" /></div>
+        <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="e.g., 李如悅, 70656, 3721B..." className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500" />
+      </div>
+      <div>
+        <div className="flex flex-wrap gap-2 mb-4">
+          <button onClick={() => setSelectedCategory(null)} className={`px-4 py-2 text-sm font-medium rounded-full ${!selectedCategory ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>All</button>
+          {PHONE_CATEGORIES.map(cat => (
+            <button key={cat} onClick={() => setSelectedCategory(cat)} className={`px-4 py-2 text-sm font-medium rounded-full ${selectedCategory === cat ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>{cat}</button>
+          ))}
+        </div>
+      </div>
+      <div className="bg-white p-4 rounded-lg shadow">
+        {(query || selectedCategory) && <p className="text-sm text-gray-500 mb-4">Found {filteredItems.length} result(s).</p>}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredItems.length > 0 ? (
+            filteredItems.map(item => (
+              <div key={item.id} className="bg-gray-50 border border-gray-200 rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                <div>
+                  <div className="flex justify-between items-start mb-2"><h3 className="text-lg font-semibold text-gray-800"><HighlightedText text={item.name} highlight={query} /></h3><span className="text-xs bg-purple-100 text-purple-800 font-medium px-2 py-1 rounded-full">{item.category}</span></div>
+                  <div className="flex justify-between items-end mt-4">
+                      <div className="text-gray-600 text-sm">
+                          {item.badge_id && <p>ID: <HighlightedText text={item.badge_id} highlight={query} /></p>}
+                      </div>
+                       <p className="text-purple-700 font-bold text-xl"><HighlightedText text={item.extension} highlight={query} /></p>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="col-span-full text-center py-10"><p className="text-gray-500">No results found.</p></div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const PhoneDirectoryModal: React.FC<{ isOpen: boolean; onClose: () => void; onSave: (item: PhoneDirectoryItem) => void; itemToEdit: PhoneDirectoryItem | null; }> = ({ isOpen, onClose, onSave, itemToEdit }) => {
+  const emptyItem = { name: '', badge_id: '', extension: '', category: PHONE_CATEGORIES[0] };
+  const [currentItem, setCurrentItem] = useState<Omit<PhoneDirectoryItem, 'id'>>(() => itemToEdit || emptyItem);
+  useEffect(() => { setCurrentItem(itemToEdit || emptyItem); }, [itemToEdit, isOpen]);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setCurrentItem(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); onSave({ ...currentItem, id: itemToEdit?.id || crypto.randomUUID() }); };
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+        <div className="p-6 border-b flex justify-between items-center"><h3 className="text-lg font-semibold">{itemToEdit ? 'Edit Contact' : 'Add New Contact'}</h3><button onClick={onClose} className="text-gray-400 hover:text-gray-600"><CloseIcon className="w-6 h-6" /></button></div>
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          <div><label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label><select name="category" value={currentItem.category} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 bg-white" required>{PHONE_CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}</select></div>
+          <div><label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label><input type="text" name="name" value={currentItem.name} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" required /></div>
+          <div><label htmlFor="badge_id" className="block text-sm font-medium text-gray-700">ID / Badge (Optional)</label><input type="text" name="badge_id" value={currentItem.badge_id} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" /></div>
+          <div><label htmlFor="extension" className="block text-sm font-medium text-gray-700">Extension</label><input type="text" name="extension" value={currentItem.extension} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" required /></div>
+          <div className="flex justify-end pt-4"><button type="button" onClick={onClose} className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium">Cancel</button><button type="submit" className="ml-3 py-2 px-4 border shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700">Save</button></div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+const PhoneDirectoryAdminView: React.FC<{ items: PhoneDirectoryItem[]; setItems: React.Dispatch<React.SetStateAction<PhoneDirectoryItem[]>>; }> = ({ items, setItems }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [itemToEdit, setItemToEdit] = useState<PhoneDirectoryItem | null>(null);
+  const handleOpenModal = (item: PhoneDirectoryItem | null = null) => { setItemToEdit(item); setIsModalOpen(true); };
+  const handleCloseModal = () => { setIsModalOpen(false); setItemToEdit(null); };
+  const handleSaveItem = (item: PhoneDirectoryItem) => { setItems(prev => itemToEdit ? prev.map(i => i.id === item.id ? item : i) : [item, ...prev]); handleCloseModal(); };
+  const handleDeleteItem = (id: string) => { if (window.confirm('Are you sure?')) { setItems(prev => prev.filter(i => i.id !== id)); } };
+  
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center"><h2 className="text-2xl font-semibold">Manage Phone Directory</h2><button onClick={() => handleOpenModal()} className="inline-flex items-center rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"><PlusIcon className="w-5 h-5 mr-2" />Add New Contact</button></div>
+      <PhoneDirectoryModal isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveItem} itemToEdit={itemToEdit} />
+      <div className="bg-white shadow overflow-hidden rounded-md"><div className="overflow-x-auto"><table className="min-w-full divide-y">
+        <thead className="bg-gray-50"><tr><th className="px-6 py-3 text-left text-xs font-medium uppercase">Category</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">Name</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">ID</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">Ext</th><th className="px-6 py-3 text-right text-xs font-medium uppercase">Actions</th></tr></thead>
+        <tbody className="divide-y">{items.map((item) => (<tr key={item.id}><td className="px-6 py-4 text-sm font-medium">{item.category}</td><td className="px-6 py-4 text-sm font-medium">{item.name}</td><td className="px-6 py-4 text-sm text-gray-500">{item.badge_id}</td><td className="px-6 py-4 text-sm font-bold text-gray-800">{item.extension}</td><td className="px-6 py-4 text-right text-sm space-x-2"><button onClick={() => handleOpenModal(item)} className="text-purple-600 p-1"><EditIcon className="w-5 h-5"/></button><button onClick={() => handleDeleteItem(item.id)} className="text-red-600 p-1"><DeleteIcon className="w-5 h-5"/></button></td></tr>))}</tbody>
+      </table></div></div>
+    </div>
+  );
+};
+
+const PhoneDirectoryFinder: React.FC = () => {
+    const [isAdminView, setIsAdminView] = useState(false);
+    const [items, setItems] = useState<PhoneDirectoryItem[]>(INITIAL_PHONE_DIRECTORY_ITEMS);
+    return (
+        <>
+            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8">
+                <button onClick={() => setIsAdminView(!isAdminView)} className={`p-2 rounded-full transition-colors ${isAdminView ? 'bg-purple-600 text-white' : 'bg-gray-200 hover:bg-purple-500 hover:text-white'}`} aria-label="Toggle Admin View"><GearIcon className="w-6 h-6" /></button>
+            </div>
+            {isAdminView ? <PhoneDirectoryAdminView items={items} setItems={setItems} /> : <PhoneDirectorySearchView items={items} />}
+        </>
+    );
+};
+
 
 // --- Main App ---
 function App() {
@@ -703,6 +902,7 @@ function App() {
     portal: 'VGHKS Assistant Portal',
     surgical: 'Surgical Code Finder',
     selfPaid: 'Self-Paid Item Finder',
+    phoneDirectory: 'Common Phone Directory',
   };
   
   const renderView = () => {
@@ -711,6 +911,8 @@ function App() {
             return <SurgicalCodeFinder />;
         case 'selfPaid':
             return <SelfPaidFinder />;
+        case 'phoneDirectory':
+            return <PhoneDirectoryFinder />;
         case 'portal':
         default:
             return <PortalView setView={setView} />;
