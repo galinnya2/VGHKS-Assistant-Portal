@@ -499,6 +499,8 @@ const INITIAL_PHONE_DIRECTORY_ITEMS: PhoneDirectoryItem[] = [
     { id: '74038', category: '產房', name: '取卵手術室/無菌室', badge_id: '', extension: '74038' },
     { id: '74039', category: '產房', name: '產房恢復室', badge_id: '', extension: '74039' },
     { id: '74030', category: '個管師', name: '產科個管師/沛芸/雅菁', badge_id: '', extension: '74030' },
+    { id: '79644', category: '個管師', name: '產科個管師沛芸', badge_id: '', extension: '79644' },
+    { id: '79730', category: '個管師', name: '產科個管師雅菁', badge_id: '', extension: '79730' },
     { id: '79806', category: '個管師', name: '婦癌個管師/文英', badge_id: '', extension: '79806' },
     { id: '76208', category: '檢查單位', name: '放射線櫃台/問CT報告', badge_id: '', extension: '76208' },
     { id: '76228', category: '檢查單位', name: 'HSG/salpingo', badge_id: '', extension: '76228' },
