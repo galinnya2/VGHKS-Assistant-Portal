@@ -445,6 +445,7 @@ const INITIAL_SELF_PAID_ITEMS: SelfPaidItem[] = [
     { id: '96711', category: '傷口撐開器', code: '96711', name_ch: '艾力克斯腹壁牽引器(L)/剖腹用/C/S', name_en: 'Alexis(L)' },
     { id: '96716', category: '傷口撐開器', code: '96716', name_ch: '艾力克斯腹壁牽引器(XS)', name_en: 'Alexis(XS)' },
     { id: '55900', category: '其他', code: '55900', name_ch: '3D腹腔鏡', name_en: '3D Laparoscopy' },
+    { id: '94059', category: '其他', code: '94059', name_ch: '肯特利壓縮套/促進雙腿血液回流/氣壓腳套', name_en: 'KENDALL SCD Sequential Compression Comfort Sleeves' },
 ];
 
 const PHONE_CATEGORIES = ["主治醫師", "住院醫師", "專科護理師", "檢查單位", "門診", "產房", "個管師", "急診"];
@@ -562,7 +563,7 @@ const PortalView: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
                 </button>
                 <button 
                     onClick={() => setView('phoneDirectory')}
-                    className="w-64 bg-purple-600 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105 flex justify-center items-center gap-2"
+                    className="w-64 bg-orange-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-orange-600 transition-transform transform hover:scale-105 flex justify-center items-center gap-2"
                 >
                     <PhoneIcon className="w-6 h-6" />
                     常用電話查詢
@@ -812,9 +813,9 @@ const PhoneDirectorySearchView: React.FC<{ items: PhoneDirectoryItem[] }> = ({ i
       </div>
       <div>
         <div className="flex flex-wrap gap-2 mb-4">
-          <button onClick={() => setSelectedCategory(null)} className={`px-4 py-2 text-sm font-medium rounded-full ${!selectedCategory ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>All</button>
+          <button onClick={() => setSelectedCategory(null)} className={`px-4 py-2 text-sm font-medium rounded-full ${!selectedCategory ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>All</button>
           {PHONE_CATEGORIES.map(cat => (
-            <button key={cat} onClick={() => setSelectedCategory(cat)} className={`px-4 py-2 text-sm font-medium rounded-full ${selectedCategory === cat ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>{cat}</button>
+            <button key={cat} onClick={() => setSelectedCategory(cat)} className={`px-4 py-2 text-sm font-medium rounded-full ${selectedCategory === cat ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>{cat}</button>
           ))}
         </div>
       </div>
@@ -825,12 +826,12 @@ const PhoneDirectorySearchView: React.FC<{ items: PhoneDirectoryItem[] }> = ({ i
             filteredItems.map(item => (
               <div key={item.id} className="bg-gray-50 border border-gray-200 rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-shadow">
                 <div>
-                  <div className="flex justify-between items-start mb-2"><h3 className="text-lg font-semibold text-gray-800"><HighlightedText text={item.name} highlight={query} /></h3><span className="text-xs bg-purple-100 text-purple-800 font-medium px-2 py-1 rounded-full">{item.category}</span></div>
+                  <div className="flex justify-between items-start mb-2"><h3 className="text-lg font-semibold text-gray-800"><HighlightedText text={item.name} highlight={query} /></h3><span className="text-xs bg-orange-100 text-orange-800 font-medium px-2 py-1 rounded-full">{item.category}</span></div>
                   <div className="flex justify-between items-end mt-4">
                       <div className="text-gray-600 text-sm">
                           {item.badge_id && <p>ID: <HighlightedText text={item.badge_id} highlight={query} /></p>}
                       </div>
-                       <p className="text-purple-700 font-bold text-xl"><HighlightedText text={item.extension} highlight={query} /></p>
+                       <p className="text-orange-600 font-bold text-xl"><HighlightedText text={item.extension} highlight={query} /></p>
                   </div>
                 </div>
               </div>
@@ -860,7 +861,7 @@ const PhoneDirectoryModal: React.FC<{ isOpen: boolean; onClose: () => void; onSa
           <div><label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label><input type="text" name="name" value={currentItem.name} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" required /></div>
           <div><label htmlFor="badge_id" className="block text-sm font-medium text-gray-700">ID / Badge (Optional)</label><input type="text" name="badge_id" value={currentItem.badge_id} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" /></div>
           <div><label htmlFor="extension" className="block text-sm font-medium text-gray-700">Extension</label><input type="text" name="extension" value={currentItem.extension} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" required /></div>
-          <div className="flex justify-end pt-4"><button type="button" onClick={onClose} className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium">Cancel</button><button type="submit" className="ml-3 py-2 px-4 border shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700">Save</button></div>
+          <div className="flex justify-end pt-4"><button type="button" onClick={onClose} className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium">Cancel</button><button type="submit" className="ml-3 py-2 px-4 border shadow-sm text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">Save</button></div>
         </form>
       </div>
     </div>
@@ -877,11 +878,11 @@ const PhoneDirectoryAdminView: React.FC<{ items: PhoneDirectoryItem[]; setItems:
   
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center"><h2 className="text-2xl font-semibold">Manage Phone Directory</h2><button onClick={() => handleOpenModal()} className="inline-flex items-center rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"><PlusIcon className="w-5 h-5 mr-2" />Add New Contact</button></div>
+      <div className="flex justify-between items-center"><h2 className="text-2xl font-semibold">Manage Phone Directory</h2><button onClick={() => handleOpenModal()} className="inline-flex items-center rounded-md bg-orange-600 px-4 py-2 text-sm font-medium text-white hover:bg-orange-700"><PlusIcon className="w-5 h-5 mr-2" />Add New Contact</button></div>
       <PhoneDirectoryModal isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveItem} itemToEdit={itemToEdit} />
       <div className="bg-white shadow overflow-hidden rounded-md"><div className="overflow-x-auto"><table className="min-w-full divide-y">
         <thead className="bg-gray-50"><tr><th className="px-6 py-3 text-left text-xs font-medium uppercase">Category</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">Name</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">ID</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">Ext</th><th className="px-6 py-3 text-right text-xs font-medium uppercase">Actions</th></tr></thead>
-        <tbody className="divide-y">{items.map((item) => (<tr key={item.id}><td className="px-6 py-4 text-sm font-medium">{item.category}</td><td className="px-6 py-4 text-sm font-medium">{item.name}</td><td className="px-6 py-4 text-sm text-gray-500">{item.badge_id}</td><td className="px-6 py-4 text-sm font-bold text-gray-800">{item.extension}</td><td className="px-6 py-4 text-right text-sm space-x-2"><button onClick={() => handleOpenModal(item)} className="text-purple-600 p-1"><EditIcon className="w-5 h-5"/></button><button onClick={() => handleDeleteItem(item.id)} className="text-red-600 p-1"><DeleteIcon className="w-5 h-5"/></button></td></tr>))}</tbody>
+        <tbody className="divide-y">{items.map((item) => (<tr key={item.id}><td className="px-6 py-4 text-sm font-medium">{item.category}</td><td className="px-6 py-4 text-sm font-medium">{item.name}</td><td className="px-6 py-4 text-sm text-gray-500">{item.badge_id}</td><td className="px-6 py-4 text-sm font-bold text-gray-800">{item.extension}</td><td className="px-6 py-4 text-right text-sm space-x-2"><button onClick={() => handleOpenModal(item)} className="text-orange-600 p-1"><EditIcon className="w-5 h-5"/></button><button onClick={() => handleDeleteItem(item.id)} className="text-red-600 p-1"><DeleteIcon className="w-5 h-5"/></button></td></tr>))}</tbody>
       </table></div></div>
     </div>
   );
@@ -893,7 +894,7 @@ const PhoneDirectoryFinder: React.FC = () => {
     return (
         <>
             <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8">
-                <button onClick={() => setIsAdminView(!isAdminView)} className={`p-2 rounded-full transition-colors ${isAdminView ? 'bg-purple-600 text-white' : 'bg-gray-200 hover:bg-purple-500 hover:text-white'}`} aria-label="Toggle Admin View"><GearIcon className="w-6 h-6" /></button>
+                <button onClick={() => setIsAdminView(!isAdminView)} className={`p-2 rounded-full transition-colors ${isAdminView ? 'bg-orange-600 text-white' : 'bg-gray-200 hover:bg-orange-500 hover:text-white'}`} aria-label="Toggle Admin View"><GearIcon className="w-6 h-6" /></button>
             </div>
             {isAdminView ? <PhoneDirectoryAdminView items={items} setItems={setItems} /> : <PhoneDirectorySearchView items={items} />}
         </>
