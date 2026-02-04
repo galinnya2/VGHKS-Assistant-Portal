@@ -50,18 +50,31 @@ const PHONE_DIRECTORY: PhoneDirectoryItem[] = [
     { id: 'p9', category: '住院醫師', name: '宋潔', extension: '70478', badge_id: 'H056E' },
 ];
 
+// --- Helper ---
+const escapeRegExp = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 // --- Components ---
 const HighlightedText: React.FC<{ text: string; highlight: string }> = ({ text, highlight }) => {
   const safeText = String(text || '');
-  if (!highlight.trim()) return <>{safeText}</>;
-  const parts = safeText.split(new RegExp(`(${highlight})`, 'gi'));
-  return (
-    <>
-      {parts.map((part, i) => 
-        part.toLowerCase() === highlight.toLowerCase() ? <mark key={i}>{part}</mark> : <span key={i}>{part}</span>
-      )}
-    </>
-  );
+  if (!highlight.trim()) return <span>{safeText}</span>;
+  
+  try {
+    const escaped = escapeRegExp(highlight.trim());
+    const regex = new RegExp(`(${escaped})`, 'gi');
+    const parts = safeText.split(regex);
+    
+    return (
+      <span>
+        {parts.map((part, i) => (
+          part.toLowerCase() === highlight.trim().toLowerCase() 
+            ? <mark key={i}>{part}</mark> 
+            : <span key={i}>{part}</span>
+        ))}
+      </span>
+    );
+  } catch (e) {
+    return <span>{safeText}</span>;
+  }
 };
 
 const App = () => {
@@ -69,130 +82,155 @@ const App = () => {
   const [search, setSearch] = useState('');
 
   const filteredSurgical = useMemo(() => {
-    if (!search) return [];
+    if (!search.trim()) return [];
     return SURGICAL_CODES.filter(i => 
-      i.code.includes(search) || i.name_ch.includes(search) || i.name_en.toLowerCase().includes(search.toLowerCase())
+      i.code.includes(search) || 
+      i.name_ch.includes(search) || 
+      i.name_en.toLowerCase().includes(search.toLowerCase())
     );
   }, [search]);
 
   const filteredSelfPaid = useMemo(() => {
+    if (!search.trim()) return SELF_PAID_ITEMS;
     return SELF_PAID_ITEMS.filter(i => i.code.includes(search) || i.name_ch.includes(search));
   }, [search]);
 
   const filteredPhone = useMemo(() => {
+    if (!search.trim()) return PHONE_DIRECTORY;
     return PHONE_DIRECTORY.filter(i => i.name.includes(search) || i.extension.includes(search));
   }, [search]);
 
-  return (
-    <div className="min-h-screen flex flex-col">
-      <header className="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <button onClick={() => setView('portal')} className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+  const renderContent = () => {
+    if (view === 'portal') {
+      return (
+        <div className="max-w-4xl mx-auto py-12 px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <button onClick={() => { setView('surgical'); setSearch(''); }} className="glass-card p-8 rounded-3xl shadow-sm hover:shadow-md transition-all border-l-8 border-blue-500 text-center flex flex-col items-center">
+            <div className="text-blue-600 mb-4 bg-blue-50 p-4 rounded-full">
+              <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
             </div>
-            <span className="font-bold text-xl text-gray-800 tracking-tight">VGHKS助手</span>
+            <h3 className="text-xl font-bold text-gray-800">手術碼查詢</h3>
+            <p className="text-gray-500 text-sm mt-2">高榮內部手術對應代碼</p>
           </button>
           
-          {view !== 'portal' && (
-            <button 
-              onClick={() => { setView('portal'); setSearch(''); }}
-              className="p-2 rounded-full hover:bg-gray-100 text-gray-500 flex items-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-              <span className="hidden sm:inline font-medium">回首頁</span>
-            </button>
-          )}
+          <button onClick={() => { setView('selfPaid'); setSearch(''); }} className="glass-card p-8 rounded-3xl shadow-sm hover:shadow-md transition-all border-l-8 border-green-500 text-center flex flex-col items-center">
+            <div className="text-green-600 mb-4 bg-green-50 p-4 rounded-full">
+              <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <h3 className="text-xl font-bold text-gray-800">自費項目</h3>
+            <p className="text-gray-500 text-sm mt-2">醫療耗材與自費檢測</p>
+          </button>
+          
+          <button onClick={() => { setView('phoneDirectory'); setSearch(''); }} className="glass-card p-8 rounded-3xl shadow-sm hover:shadow-md transition-all border-l-8 border-orange-500 text-center flex flex-col items-center">
+            <div className="text-orange-600 mb-4 bg-orange-50 p-4 rounded-full">
+              <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+            </div>
+            <h3 className="text-xl font-bold text-gray-800">分機查詢</h3>
+            <p className="text-gray-500 text-sm mt-2">產房、醫師、科室分機</p>
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <div className="max-w-5xl mx-auto p-4">
+        <div className="mb-8">
+          <div className="relative">
+            <input 
+              type="text" 
+              autoFocus
+              value={search} 
+              onChange={e => setSearch(e.target.value)}
+              placeholder={view === 'phoneDirectory' ? "搜尋姓名或分機..." : "搜尋關鍵字、代碼..."}
+              className="w-full pl-12 pr-6 py-4 rounded-2xl border-none shadow-lg focus:ring-2 focus:ring-primary-500 text-lg"
+            />
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {view === 'surgical' && filteredSurgical.map(i => (
+            <div key={i.id} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 border-t-4 border-blue-500">
+              <span className="text-blue-600 font-bold text-sm tracking-widest uppercase">{i.code}</span>
+              <h4 className="text-lg font-bold text-gray-800 mt-1"><HighlightedText text={i.name_ch} highlight={search} /></h4>
+              <p className="text-gray-400 text-xs mt-2 italic leading-tight">{i.name_en}</p>
+            </div>
+          ))}
+
+          {view === 'selfPaid' && filteredSelfPaid.map(i => (
+            <div key={i.id} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 border-t-4 border-green-500">
+              <div className="flex justify-between items-start mb-2">
+                <span className="text-green-600 font-bold text-sm">{i.code}</span>
+                <span className="text-[10px] px-2 py-0.5 bg-green-50 text-green-700 rounded-full font-bold uppercase">{i.category}</span>
+              </div>
+              <h4 className="font-bold text-gray-800"><HighlightedText text={i.name_ch} highlight={search} /></h4>
+              <p className="text-gray-400 text-xs mt-1 italic">{i.name_en}</p>
+            </div>
+          ))}
+
+          {view === 'phoneDirectory' && filteredPhone.map(i => (
+            <div key={i.id} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between border-t-4 border-orange-500">
+              <div className="mb-4">
+                <span className="text-[10px] px-2 py-0.5 bg-orange-50 text-orange-600 rounded-full font-bold uppercase mb-2 inline-block">{i.category}</span>
+                <h4 className="text-xl font-bold text-gray-800"><HighlightedText text={i.name} highlight={search} /></h4>
+                {i.badge_id && <p className="text-gray-400 text-xs mt-1 uppercase tracking-wider">ID: {i.badge_id}</p>}
+              </div>
+              <div className="flex justify-between items-baseline pt-4 border-t border-gray-50">
+                <span className="text-gray-400 text-xs font-bold tracking-tighter uppercase">Extension</span>
+                <span className="text-3xl font-black text-orange-600 tracking-tighter">{i.extension}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {search.trim() && (
+          (view === 'surgical' && filteredSurgical.length === 0) ||
+          (view === 'selfPaid' && filteredSelfPaid.length === 0) ||
+          (view === 'phoneDirectory' && filteredPhone.length === 0)
+        ) && (
+          <div className="text-center py-20 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 mt-8">
+            <p className="text-gray-400 font-medium">查無相關結果，請更換關鍵字搜尋</p>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col bg-slate-50">
+      <header className="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+          <button onClick={() => { setView('portal'); setSearch(''); }} className="flex items-center gap-2 group">
+            <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center text-white shadow-md group-hover:rotate-6 transition-transform">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            </div>
+            <span className="font-bold text-xl text-gray-800 tracking-tight hidden xs:block">VGHKS助理</span>
+          </button>
+          
+          <div className="flex items-center gap-1 sm:gap-4">
+            {view !== 'portal' && (
+              <button onClick={() => { setView('portal'); setSearch(''); }} className="px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 flex items-center gap-1">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                首頁
+              </button>
+            )}
+            <nav className="flex items-center gap-1">
+              <button onClick={() => { setView('surgical'); setSearch(''); }} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${view === 'surgical' ? 'bg-blue-50 text-blue-600' : 'text-gray-500 hover:bg-gray-100'}`}>手術碼</button>
+              <button onClick={() => { setView('selfPaid'); setSearch(''); }} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${view === 'selfPaid' ? 'bg-green-50 text-green-600' : 'text-gray-500 hover:bg-gray-100'}`}>自費</button>
+              <button onClick={() => { setView('phoneDirectory'); setSearch(''); }} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${view === 'phoneDirectory' ? 'bg-orange-50 text-orange-600' : 'text-gray-500 hover:bg-gray-100'}`}>分機</button>
+            </nav>
+          </div>
         </div>
       </header>
 
-      <main className="flex-grow p-4 md:p-8">
-        {view === 'portal' && (
-          <div className="max-w-4xl mx-auto py-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <button onClick={() => setView('surgical')} className="glass-card p-8 rounded-3xl shadow-sm hover:shadow-md transition-all border-l-8 border-blue-500 text-center">
-              <div className="text-blue-600 mb-4 flex justify-center"><svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg></div>
-              <h3 className="text-xl font-bold text-gray-800">手術碼查詢</h3>
-              <p className="text-gray-500 text-sm mt-2">高榮內部手術對應代碼</p>
-            </button>
-            <button onClick={() => setView('selfPaid')} className="glass-card p-8 rounded-3xl shadow-sm hover:shadow-md transition-all border-l-8 border-green-500 text-center">
-              <div className="text-green-600 mb-4 flex justify-center"><svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
-              <h3 className="text-xl font-bold text-gray-800">自費項目</h3>
-              <p className="text-gray-500 text-sm mt-2">醫材耗材與自費檢測</p>
-            </button>
-            <button onClick={() => setView('phoneDirectory')} className="glass-card p-8 rounded-3xl shadow-sm hover:shadow-md transition-all border-l-8 border-orange-500 text-center">
-              <div className="text-orange-600 mb-4 flex justify-center"><svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg></div>
-              <h3 className="text-xl font-bold text-gray-800">分機查詢</h3>
-              <p className="text-gray-500 text-sm mt-2">產房、醫師、各科室分機</p>
-            </button>
-          </div>
-        )}
-
-        {view !== 'portal' && (
-          <div className="max-w-5xl mx-auto">
-            <div className="mb-8">
-              <div className="relative">
-                <input 
-                  type="text" autoFocus
-                  value={search} onChange={e => setSearch(e.target.value)}
-                  placeholder={view === 'phoneDirectory' ? "搜尋姓名或分機..." : "搜尋關鍵字、代碼..."}
-                  className="w-full pl-12 pr-6 py-4 rounded-2xl border-none shadow-lg focus:ring-2 focus:ring-primary-500 text-lg"
-                />
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {view === 'surgical' && filteredSurgical.map(i => (
-                <div key={i.id} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 border-t-4 border-blue-500">
-                  <span className="text-blue-600 font-bold text-sm tracking-widest uppercase">{i.code}</span>
-                  <h4 className="text-lg font-bold text-gray-800 mt-1"><HighlightedText text={i.name_ch} highlight={search} /></h4>
-                  <p className="text-gray-400 text-xs mt-2 italic leading-tight">{i.name_en}</p>
-                </div>
-              ))}
-
-              {view === 'selfPaid' && filteredSelfPaid.map(i => (
-                <div key={i.id} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 border-t-4 border-green-500">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-green-600 font-bold text-sm">{i.code}</span>
-                    <span className="text-[10px] px-2 py-0.5 bg-green-50 text-green-700 rounded-full font-bold uppercase">{i.category}</span>
-                  </div>
-                  <h4 className="font-bold text-gray-800"><HighlightedText text={i.name_ch} highlight={search} /></h4>
-                  <p className="text-gray-400 text-xs mt-1">{i.name_en}</p>
-                </div>
-              ))}
-
-              {view === 'phoneDirectory' && filteredPhone.map(i => (
-                <div key={i.id} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between border-t-4 border-orange-500">
-                  <div className="mb-4">
-                    <span className="text-[10px] px-2 py-0.5 bg-orange-50 text-orange-600 rounded-full font-bold uppercase mb-2 inline-block">{i.category}</span>
-                    <h4 className="text-xl font-bold text-gray-800"><HighlightedText text={i.name} highlight={search} /></h4>
-                    {i.badge_id && <p className="text-gray-400 text-xs mt-1">ID: {i.badge_id}</p>}
-                  </div>
-                  <div className="flex justify-between items-baseline pt-4 border-t border-gray-50">
-                    <span className="text-gray-400 text-xs font-bold tracking-tighter uppercase">Extension</span>
-                    <span className="text-3xl font-black text-orange-600 tracking-tighter">{i.extension}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {search && (
-              (view === 'surgical' && filteredSurgical.length === 0) ||
-              (view === 'selfPaid' && filteredSelfPaid.length === 0) ||
-              (view === 'phoneDirectory' && filteredPhone.length === 0)
-            ) && (
-              <div className="text-center py-20">
-                <p className="text-gray-400">查無相關結果，請更換關鍵字搜尋</p>
-              </div>
-            )}
-          </div>
-        )}
+      <main className="flex-grow">
+        {renderContent()}
       </main>
 
-      <footer className="py-6 border-t border-gray-100 bg-white text-center">
-        <p className="text-gray-400 text-xs tracking-wide uppercase font-medium">VGHKS Assistant Platform &copy; 2024</p>
+      <footer className="py-8 bg-white border-t border-gray-100 text-center">
+        <p className="text-gray-400 text-xs tracking-widest uppercase font-bold">VGHKS Assistant Platform &copy; 2024</p>
+        <p className="text-gray-300 text-[10px] mt-1">高雄榮民總醫院 · 內部資訊助手</p>
       </footer>
     </div>
   );
