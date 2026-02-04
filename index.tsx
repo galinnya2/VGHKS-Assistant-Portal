@@ -1,8 +1,7 @@
-
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 
-// Types
+// --- Types ---
 interface SurgicalCode {
   id: string;
   code: string;
@@ -29,58 +28,38 @@ interface PhoneDirectoryItem {
 type View = 'portal' | 'surgical' | 'selfPaid' | 'phoneDirectory';
 
 
-// Icons
-const SearchIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+// --- Icons ---
+const SearchIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
   </svg>
 );
 
-const GearIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-1.007 1.11-.962a8.714 8.714 0 012.59 0c.55.045 1.02.42 1.11.962l.69 4.162c.493.296.976.641 1.416 1.024l3.65-1.58c.53-.23.904-.693 1.042-1.233a8.71 8.71 0 010 2.466c-.138.54-.512 1.003-1.042 1.233l-3.65 1.58a8.71 8.71 0 01-1.416 1.024l-.69 4.162c-.09.542-.56 1.007-1.11.962a8.714 8.714 0 01-2.59 0c-.55-.045-1.02-.42-1.11-.962l-.69-4.162a8.71 8.71 0 01-1.416-1.024l-3.65-1.58c-.53-.23-.904-.693-1.042-1.233a8.71 8.71 0 010-2.466c.138.54.512 1.003 1.042 1.233l3.65-1.58c.44-.183.923-.528 1.416-1.024l.69-4.162z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-  </svg>
-);
-
-const PlusIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-  </svg>
-);
-
-const EditIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-    </svg>
-);
-
-const DeleteIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.134-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.067-2.09 1.02-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-    </svg>
-);
-
-const CloseIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-    </svg>
-);
-
-const HomeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+const HomeIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955a.75.75 0 011.06 0l8.955 8.955M3 11.25V21a.75.75 0 00.75.75h4.5a.75.75 0 00.75-.75V16.5a.75.75 0 01.75-.75h2.5a.75.75 0 01.75.75v4.5a.75.75 0 00.75.75h4.5a.75.75 0 00.75-.75V11.25m-18 0A23.955 23.955 0 0112 3c4.618 0 8.92 1.413 12.5 3.75" />
   </svg>
 );
 
-const PhoneIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+const PhoneIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
   </svg>
 );
 
+const DocumentIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+  </svg>
+);
 
-// Constants
+const CreditCardIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+  </svg>
+);
+
+// --- Constants (The "File" source) ---
 const INITIAL_SURGICAL_CODES: SurgicalCode[] = [
     { id: '70006B', code: '70006B', name_ch: '肌肉或深部組織腫瘤切除術及異物取出術 / 移除Port-A', name_en: 'Excision of muscle or deep tissue tumor, deep foreign body (Remove Port-A)' },
     { id: '71215C', code: '71215C', name_ch: '二氧化碳雷射手術', name_en: 'CO2 laser operation' },
@@ -364,7 +343,7 @@ const INITIAL_SURGICAL_CODES: SurgicalCode[] = [
     { id: '77830J', code: '77830J', name_ch: '近紅外線內視鏡輔助微創手術 / 前哨淋巴結', name_en: 'Near infrared assisted endoscopic surgery / ICG / Sentinel LN' },
 ];
 
-const CATEGORIES = ["手術器械", "止血", "防沾黏", "傷口敷料", "縫線", "病理", "HIPEC", "檢體袋", "傷口撐開器", "其他"];
+const SELF_PAID_CATEGORIES = ["手術器械", "止血", "防沾黏", "傷口敷料", "縫線", "病理", "HIPEC", "檢體袋", "傷口撐開器", "其他"];
 
 const INITIAL_SELF_PAID_ITEMS: SelfPaidItem[] = [
     { id: '97123', category: '手術器械', code: '97123', name_ch: '雙極雷聲刀/雷神刀', name_en: 'Thunderbeat' },
@@ -516,24 +495,18 @@ const INITIAL_PHONE_DIRECTORY_ITEMS: PhoneDirectoryItem[] = [
 ];
 
 
-// Components
+// --- Shared Components ---
 const HighlightedText: React.FC<{ text: string; highlight: string }> = ({ text, highlight }) => {
-  if (!highlight.trim()) {
-    return <span>{text}</span>;
-  }
+  if (!highlight.trim()) return <span>{text}</span>;
   const keywords = highlight.trim().split(/\s+/).filter(Boolean).map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-  if (keywords.length === 0) {
-    return <span>{text}</span>;
-  }
+  if (keywords.length === 0) return <span>{text}</span>;
   const regex = new RegExp(`(${keywords.join('|')})`, 'gi');
   const parts = text.split(regex);
   return (
     <span>
       {parts.map((part, i) =>
         i % 2 === 1 ? (
-          <mark key={i} className="bg-yellow-200 px-0 py-0 rounded">
-            {part}
-          </mark>
+          <mark key={i} className="bg-yellow-200 px-0 rounded">{part}</mark>
         ) : (
           <span key={i}>{part}</span>
         )
@@ -542,421 +515,309 @@ const HighlightedText: React.FC<{ text: string; highlight: string }> = ({ text, 
   );
 };
 
-// --- Portal View ---
-const PortalView: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
-    return (
-        <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-800 mb-8">功能選單</h2>
-            <div className="flex flex-col md:flex-row justify-center items-center gap-6">
-                <button 
-                    onClick={() => setView('surgical')}
-                    className="w-64 bg-primary-600 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-primary-700 transition-transform transform hover:scale-105"
-                >
-                    高榮手術碼查詢
-                </button>
-                <button 
-                    onClick={() => setView('selfPaid')}
-                    className="w-64 bg-green-600 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-green-700 transition-transform transform hover:scale-105"
-                >
-                    自費項目查詢
-                </button>
-                <button 
-                    onClick={() => setView('phoneDirectory')}
-                    className="w-64 bg-orange-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-orange-600 transition-transform transform hover:scale-105 flex justify-center items-center gap-2"
-                >
-                    <PhoneIcon className="w-6 h-6" />
-                    常用電話查詢
-                </button>
-            </div>
+// --- View: Portal ---
+const PortalView: React.FC<{ setView: (v: View) => void }> = ({ setView }) => (
+  <div className="max-w-4xl mx-auto py-12 px-4">
+    <div className="text-center mb-12">
+      <h2 className="text-4xl font-bold text-gray-800 mb-4">VGHKS 醫療助手平台</h2>
+      <p className="text-lg text-gray-600">快速查詢手術碼、自費項目及醫院常用分機</p>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <button 
+        onClick={() => setView('surgical')}
+        className="glass-card p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-2 text-center group"
+      >
+        <div className="w-16 h-16 bg-primary-100 text-primary-600 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+          <DocumentIcon className="w-10 h-10" />
         </div>
-    );
-};
+        <h3 className="text-xl font-bold text-gray-800 mb-2">手術碼查詢</h3>
+        <p className="text-gray-500 text-sm">查詢高榮手術對應代碼與名稱</p>
+      </button>
 
-// --- Surgical Code Finder Components ---
-const SurgicalCodeSearchView: React.FC<{ codes: SurgicalCode[] }> = ({ codes }) => {
+      <button 
+        onClick={() => setView('selfPaid')}
+        className="glass-card p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-2 text-center group"
+      >
+        <div className="w-16 h-16 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-green-600 group-hover:text-white transition-colors">
+          <CreditCardIcon className="w-10 h-10" />
+        </div>
+        <h3 className="text-xl font-bold text-gray-800 mb-2">自費項目查詢</h3>
+        <p className="text-gray-500 text-sm">醫材、病理及各項自費代碼查詢</p>
+      </button>
+
+      <button 
+        onClick={() => setView('phoneDirectory')}
+        className="glass-card p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-2 text-center group"
+      >
+        <div className="w-16 h-16 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+          <PhoneIcon className="w-10 h-10" />
+        </div>
+        <h3 className="text-xl font-bold text-gray-800 mb-2">分機查詢</h3>
+        <p className="text-gray-500 text-sm">醫院各科室、醫師及檢查單位分機</p>
+      </button>
+    </div>
+  </div>
+);
+
+// --- View: Surgical Search ---
+const SurgicalSearchView: React.FC = () => {
   const [query, setQuery] = useState('');
-  const filteredCodes = useMemo(() => {
-    const keywords = query.toLowerCase().split(' ').filter(k => k.trim() !== '');
-    if (keywords.length === 0) return [];
-    return codes.filter(item => {
-      const searchableText = `${item.code} ${item.name_ch} ${item.name_en}`.toLowerCase();
-      return keywords.every(keyword => searchableText.includes(keyword));
+  const filtered = useMemo(() => {
+    const k = query.toLowerCase().split(' ').filter(x => x.trim());
+    if (k.length === 0) return [];
+    return INITIAL_SURGICAL_CODES.filter(item => {
+      const text = `${item.code} ${item.name_ch} ${item.name_en}`.toLowerCase();
+      return k.every(word => text.includes(word));
     });
-  }, [query, codes]);
+  }, [query]);
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">Search Surgical Codes</h2>
-        <p className="text-gray-600">Enter keywords to find a surgical code. Separate multiple keywords with a space for an AND search.</p>
-      </div>
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon className="h-5 w-5 text-gray-400" />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+        <h2 className="text-2xl font-bold text-primary-700 mb-4 flex items-center gap-2">
+          <DocumentIcon className="w-7 h-7" /> 高榮手術碼查詢
+        </h2>
+        <div className="relative">
+          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400" />
+          <input 
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="輸入關鍵字 (代碼、中文或英文名稱)..."
+            className="w-full pl-12 pr-4 py-4 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-primary-500 text-lg"
+            autoFocus
+          />
         </div>
-        <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="e.g., Appendectomy, 73202E, 闌尾..." className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-lg" />
       </div>
-      <div className="bg-white p-4 rounded-lg shadow">
-        {query && filteredCodes.length > 0 && <p className="text-sm text-gray-500 mb-4">Found {filteredCodes.length} result(s) for "{query}".</p>}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCodes.length > 0 ? (
-            filteredCodes.map(code => (
-              <div key={code.id} className="bg-gray-50 border border-gray-200 rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-shadow">
-                <div>
-                  <h3 className="text-lg font-semibold text-primary-700"><HighlightedText text={code.code} highlight={query} /></h3>
-                  <p className="text-gray-800 my-2 text-base"><HighlightedText text={code.name_ch} highlight={query} /></p>
-                  <p className="text-gray-600 text-sm"><HighlightedText text={code.name_en} highlight={query} /></p>
-                </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {query ? (
+          filtered.length > 0 ? (
+            filtered.map(item => (
+              <div key={item.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-primary-300 transition-colors">
+                <span className="text-primary-600 font-bold text-sm tracking-widest uppercase"><HighlightedText text={item.code} highlight={query} /></span>
+                <h4 className="text-lg font-bold text-gray-800 mt-2 leading-snug"><HighlightedText text={item.name_ch} highlight={query} /></h4>
+                <p className="text-gray-500 text-sm mt-3"><HighlightedText text={item.name_en} highlight={query} /></p>
               </div>
             ))
           ) : (
-            <div className="col-span-full text-center py-10"><p className="text-gray-500">{query ? 'No results found.' : 'Start typing to see results.'}</p></div>
-          )}
-        </div>
+            <div className="col-span-full py-12 text-center text-gray-500">查無結果</div>
+          )
+        ) : (
+          <div className="col-span-full py-12 text-center text-gray-400 italic">請輸入關鍵字開始查詢</div>
+        )}
       </div>
     </div>
   );
 };
 
-const SurgicalCodeModal: React.FC<{ isOpen: boolean; onClose: () => void; onSave: (code: SurgicalCode) => void; codeToEdit: SurgicalCode | null; }> = ({ isOpen, onClose, onSave, codeToEdit }) => {
-  const [currentCode, setCurrentCode] = useState<Omit<SurgicalCode, 'id'>>(() => codeToEdit || { code: '', name_ch: '', name_en: '' });
-  useEffect(() => { setCurrentCode(codeToEdit || { code: '', name_ch: '', name_en: '' }); }, [codeToEdit, isOpen]);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setCurrentCode(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); onSave({ ...currentCode, id: codeToEdit?.id || crypto.randomUUID() }); };
-  if (!isOpen) return null;
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
-        <div className="p-6 border-b flex justify-between items-center"><h3 className="text-lg font-semibold">{codeToEdit ? 'Edit Code' : 'Add New Code'}</h3><button onClick={onClose} className="text-gray-400 hover:text-gray-600"><CloseIcon className="w-6 h-6" /></button></div>
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div><label htmlFor="code" className="block text-sm font-medium text-gray-700">Code</label><input type="text" name="code" value={currentCode.code} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" required /></div>
-          <div><label htmlFor="name_ch" className="block text-sm font-medium text-gray-700">Chinese Name</label><textarea name="name_ch" value={currentCode.name_ch} onChange={handleChange} rows={3} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" required /></div>
-          <div><label htmlFor="name_en" className="block text-sm font-medium text-gray-700">English Name</label><textarea name="name_en" value={currentCode.name_en} onChange={handleChange} rows={3} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" required /></div>
-          <div className="flex justify-end pt-4"><button type="button" onClick={onClose} className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium">Cancel</button><button type="submit" className="ml-3 py-2 px-4 border shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">Save</button></div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-const SurgicalCodeAdminView: React.FC<{ codes: SurgicalCode[]; setCodes: React.Dispatch<React.SetStateAction<SurgicalCode[]>>; }> = ({ codes, setCodes }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [codeToEdit, setCodeToEdit] = useState<SurgicalCode | null>(null);
-  const handleOpenModal = (code: SurgicalCode | null = null) => { setCodeToEdit(code); setIsModalOpen(true); };
-  const handleCloseModal = () => { setIsModalOpen(false); setCodeToEdit(null); };
-  const handleSaveCode = (code: SurgicalCode) => { setCodes(prev => codeToEdit ? prev.map(c => c.id === code.id ? code : c) : [code, ...prev]); handleCloseModal(); };
-  const handleDeleteCode = (id: string) => { if (window.confirm('Are you sure?')) { setCodes(prev => prev.filter(c => c.id !== id)); } };
-  return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center"><h2 className="text-2xl font-semibold">Manage Codes</h2><button onClick={() => handleOpenModal()} className="inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700"><PlusIcon className="w-5 h-5 mr-2" />Add New Code</button></div>
-      <SurgicalCodeModal isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveCode} codeToEdit={codeToEdit} />
-      <div className="bg-white shadow overflow-hidden rounded-md"><div className="overflow-x-auto"><table className="min-w-full divide-y">
-        <thead className="bg-gray-50"><tr><th className="px-6 py-3 text-left text-xs font-medium uppercase">Code</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">Chinese Name</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">English Name</th><th className="px-6 py-3 text-right text-xs font-medium uppercase">Actions</th></tr></thead>
-        <tbody className="divide-y">{codes.map((code) => (<tr key={code.id}><td className="px-6 py-4 text-sm font-medium">{code.code}</td><td className="px-6 py-4 text-sm max-w-xs break-words">{code.name_ch}</td><td className="px-6 py-4 text-sm max-w-xs break-words">{code.name_en}</td><td className="px-6 py-4 text-right text-sm space-x-2"><button onClick={() => handleOpenModal(code)} className="text-primary-600 p-1"><EditIcon className="w-5 h-5"/></button><button onClick={() => handleDeleteCode(code.id)} className="text-red-600 p-1"><DeleteIcon className="w-5 h-5"/></button></td></tr>))}</tbody>
-      </table></div></div>
-    </div>
-  );
-};
-
-const SurgicalCodeFinder: React.FC = () => {
-    const [isAdminView, setIsAdminView] = useState(false);
-    const [codes, setCodes] = useState<SurgicalCode[]>(INITIAL_SURGICAL_CODES);
-    return (
-        <>
-            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8">
-                <button onClick={() => setIsAdminView(!isAdminView)} className={`p-2 rounded-full transition-colors ${isAdminView ? 'bg-primary-600 text-white' : 'bg-gray-200 hover:bg-primary-500 hover:text-white'}`} aria-label="Toggle Admin View"><GearIcon className="w-6 h-6" /></button>
-            </div>
-            {isAdminView ? <SurgicalCodeAdminView codes={codes} setCodes={setCodes} /> : <SurgicalCodeSearchView codes={codes} />}
-        </>
-    );
-};
-
-
-// --- Self-Paid Item Finder Components ---
-const SelfPaidItemSearchView: React.FC<{ items: SelfPaidItem[] }> = ({ items }) => {
+// --- View: Self Paid Search ---
+const SelfPaidSearchView: React.FC = () => {
   const [query, setQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [cat, setCat] = useState<string | null>(null);
 
-  const filteredItems = useMemo(() => {
-    const categorized = selectedCategory ? items.filter(i => i.category === selectedCategory) : items;
-    const keywords = query.toLowerCase().split(' ').filter(k => k.trim() !== '');
-    if (keywords.length === 0) return categorized;
+  const filtered = useMemo(() => {
+    const categorized = cat ? INITIAL_SELF_PAID_ITEMS.filter(i => i.category === cat) : INITIAL_SELF_PAID_ITEMS;
+    const k = query.toLowerCase().split(' ').filter(x => x.trim());
+    if (k.length === 0) return categorized;
     return categorized.filter(item => {
-      const searchableText = `${item.code} ${item.name_ch} ${item.name_en} ${item.category}`.toLowerCase();
-      return keywords.every(keyword => searchableText.includes(keyword));
+      const text = `${item.code} ${item.name_ch} ${item.name_en} ${item.category}`.toLowerCase();
+      return k.every(word => text.includes(word));
     });
-  }, [query, items, selectedCategory]);
+  }, [query, cat]);
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">Search Self-Paid Items</h2>
-        <p className="text-gray-600">Select a category or enter keywords to find an item.</p>
-      </div>
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><SearchIcon className="h-5 w-5 text-gray-400" /></div>
-        <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="e.g., Thunderbeat, 97123, 縫線..." className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500" />
-      </div>
-      <div>
-        <div className="flex flex-wrap gap-2 mb-4">
-          <button onClick={() => setSelectedCategory(null)} className={`px-4 py-2 text-sm font-medium rounded-full ${!selectedCategory ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>All</button>
-          {CATEGORIES.map(cat => (
-            <button key={cat} onClick={() => setSelectedCategory(cat)} className={`px-4 py-2 text-sm font-medium rounded-full ${selectedCategory === cat ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>{cat}</button>
-          ))}
-        </div>
-      </div>
-      <div className="bg-white p-4 rounded-lg shadow">
-        {(query || selectedCategory) && <p className="text-sm text-gray-500 mb-4">Found {filteredItems.length} result(s).</p>}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredItems.length > 0 ? (
-            filteredItems.map(item => (
-              <div key={item.id} className="bg-gray-50 border border-gray-200 rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-shadow">
-                <div>
-                  <div className="flex justify-between items-start mb-2"><h3 className="text-lg font-semibold text-primary-700"><HighlightedText text={item.code} highlight={query} /></h3><span className="text-xs bg-primary-100 text-primary-800 font-medium px-2 py-1 rounded-full">{item.category}</span></div>
-                  <p className="text-gray-800 my-2 text-base"><HighlightedText text={item.name_ch} highlight={query} /></p>
-                  <p className="text-gray-600 text-sm"><HighlightedText text={item.name_en} highlight={query} /></p>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="col-span-full text-center py-10"><p className="text-gray-500">No results found.</p></div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const SelfPaidItemModal: React.FC<{ isOpen: boolean; onClose: () => void; onSave: (item: SelfPaidItem) => void; itemToEdit: SelfPaidItem | null; }> = ({ isOpen, onClose, onSave, itemToEdit }) => {
-  const emptyItem = { code: '', name_ch: '', name_en: '', category: CATEGORIES[0] };
-  const [currentItem, setCurrentItem] = useState<Omit<SelfPaidItem, 'id'>>(() => itemToEdit || emptyItem);
-  useEffect(() => { setCurrentItem(itemToEdit || emptyItem); }, [itemToEdit, isOpen]);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setCurrentItem(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); onSave({ ...currentItem, id: itemToEdit?.id || crypto.randomUUID() }); };
-  if (!isOpen) return null;
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
-        <div className="p-6 border-b flex justify-between items-center"><h3 className="text-lg font-semibold">{itemToEdit ? 'Edit Item' : 'Add New Item'}</h3><button onClick={onClose} className="text-gray-400 hover:text-gray-600"><CloseIcon className="w-6 h-6" /></button></div>
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div><label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label><select name="category" value={currentItem.category} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 bg-white" required>{CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}</select></div>
-          <div><label htmlFor="code" className="block text-sm font-medium text-gray-700">Code</label><input type="text" name="code" value={currentItem.code} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" required /></div>
-          <div><label htmlFor="name_ch" className="block text-sm font-medium text-gray-700">Chinese Name</label><textarea name="name_ch" value={currentItem.name_ch} onChange={handleChange} rows={3} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" /></div>
-          <div><label htmlFor="name_en" className="block text-sm font-medium text-gray-700">English Name</label><textarea name="name_en" value={currentItem.name_en} onChange={handleChange} rows={3} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" required /></div>
-          <div className="flex justify-end pt-4"><button type="button" onClick={onClose} className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium">Cancel</button><button type="submit" className="ml-3 py-2 px-4 border shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">Save</button></div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-const SelfPaidItemAdminView: React.FC<{ items: SelfPaidItem[]; setItems: React.Dispatch<React.SetStateAction<SelfPaidItem[]>>; }> = ({ items, setItems }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [itemToEdit, setItemToEdit] = useState<SelfPaidItem | null>(null);
-  const handleOpenModal = (item: SelfPaidItem | null = null) => { setItemToEdit(item); setIsModalOpen(true); };
-  const handleCloseModal = () => { setIsModalOpen(false); setItemToEdit(null); };
-  const handleSaveItem = (item: SelfPaidItem) => { setItems(prev => itemToEdit ? prev.map(i => i.id === item.id ? item : i) : [item, ...prev]); handleCloseModal(); };
-  const handleDeleteItem = (id: string) => { if (window.confirm('Are you sure?')) { setItems(prev => prev.filter(i => i.id !== id)); } };
-  
-  return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center"><h2 className="text-2xl font-semibold">Manage Self-Paid Items</h2><button onClick={() => handleOpenModal()} className="inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700"><PlusIcon className="w-5 h-5 mr-2" />Add New Item</button></div>
-      <SelfPaidItemModal isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveItem} itemToEdit={itemToEdit} />
-      <div className="bg-white shadow overflow-hidden rounded-md"><div className="overflow-x-auto"><table className="min-w-full divide-y">
-        <thead className="bg-gray-50"><tr><th className="px-6 py-3 text-left text-xs font-medium uppercase">Category</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">Code</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">Chinese Name</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">English Name</th><th className="px-6 py-3 text-right text-xs font-medium uppercase">Actions</th></tr></thead>
-        <tbody className="divide-y">{items.map((item) => (<tr key={item.id}><td className="px-6 py-4 text-sm font-medium">{item.category}</td><td className="px-6 py-4 text-sm font-medium">{item.code}</td><td className="px-6 py-4 text-sm max-w-xs break-words">{item.name_ch}</td><td className="px-6 py-4 text-sm max-w-xs break-words">{item.name_en}</td><td className="px-6 py-4 text-right text-sm space-x-2"><button onClick={() => handleOpenModal(item)} className="text-primary-600 p-1"><EditIcon className="w-5 h-5"/></button><button onClick={() => handleDeleteItem(item.id)} className="text-red-600 p-1"><DeleteIcon className="w-5 h-5"/></button></td></tr>))}</tbody>
-      </table></div></div>
-    </div>
-  );
-};
-
-
-const SelfPaidFinder: React.FC = () => {
-    const [isAdminView, setIsAdminView] = useState(false);
-    const [items, setItems] = useState<SelfPaidItem[]>(INITIAL_SELF_PAID_ITEMS);
-    return (
-        <>
-            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8">
-                <button onClick={() => setIsAdminView(!isAdminView)} className={`p-2 rounded-full transition-colors ${isAdminView ? 'bg-primary-600 text-white' : 'bg-gray-200 hover:bg-primary-500 hover:text-white'}`} aria-label="Toggle Admin View"><GearIcon className="w-6 h-6" /></button>
-            </div>
-            {isAdminView ? <SelfPaidItemAdminView items={items} setItems={setItems} /> : <SelfPaidItemSearchView items={items} />}
-        </>
-    );
-};
-
-// --- Phone Directory Components ---
-
-const PhoneDirectorySearchView: React.FC<{ items: PhoneDirectoryItem[] }> = ({ items }) => {
-  const [query, setQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
-  const filteredItems = useMemo(() => {
-    const categorized = selectedCategory ? items.filter(i => i.category === selectedCategory) : items;
-    const keywords = query.toLowerCase().split(' ').filter(k => k.trim() !== '');
-    if (keywords.length === 0) return categorized;
-    return categorized.filter(item => {
-      const searchableText = `${item.name} ${item.extension} ${item.badge_id} ${item.category}`.toLowerCase();
-      return keywords.every(keyword => searchableText.includes(keyword));
-    });
-  }, [query, items, selectedCategory]);
-
-  return (
-    <div className="space-y-8">
-      <div>
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">Search Phone Directory</h2>
-        <p className="text-gray-600">Select a category or enter keywords (Name, ID, Ext) to find a contact.</p>
-      </div>
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><SearchIcon className="h-5 w-5 text-gray-400" /></div>
-        <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="e.g., 李如悅, 70656, 3721B..." className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500" />
-      </div>
-      <div>
-        <div className="flex flex-wrap gap-2 mb-4">
-          <button onClick={() => setSelectedCategory(null)} className={`px-4 py-2 text-sm font-medium rounded-full ${!selectedCategory ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>All</button>
-          {PHONE_CATEGORIES.map(cat => (
-            <button key={cat} onClick={() => setSelectedCategory(cat)} className={`px-4 py-2 text-sm font-medium rounded-full ${selectedCategory === cat ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>{cat}</button>
-          ))}
-        </div>
-      </div>
-      <div className="bg-white p-4 rounded-lg shadow">
-        {(query || selectedCategory) && <p className="text-sm text-gray-500 mb-4">Found {filteredItems.length} result(s).</p>}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredItems.length > 0 ? (
-            filteredItems.map(item => (
-              <div key={item.id} className="bg-gray-50 border border-gray-200 rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-shadow">
-                <div>
-                  <div className="flex justify-between items-start mb-2"><h3 className="text-lg font-semibold text-gray-800"><HighlightedText text={item.name} highlight={query} /></h3><span className="text-xs bg-orange-100 text-orange-800 font-medium px-2 py-1 rounded-full">{item.category}</span></div>
-                  <div className="flex justify-between items-end mt-4">
-                      <div className="text-gray-600 text-sm">
-                          {item.badge_id && <p>ID: <HighlightedText text={item.badge_id} highlight={query} /></p>}
-                      </div>
-                       <p className="text-orange-600 font-bold text-xl"><HighlightedText text={item.extension} highlight={query} /></p>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="col-span-full text-center py-10"><p className="text-gray-500">No results found.</p></div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const PhoneDirectoryModal: React.FC<{ isOpen: boolean; onClose: () => void; onSave: (item: PhoneDirectoryItem) => void; itemToEdit: PhoneDirectoryItem | null; }> = ({ isOpen, onClose, onSave, itemToEdit }) => {
-  const emptyItem = { name: '', badge_id: '', extension: '', category: PHONE_CATEGORIES[0] };
-  const [currentItem, setCurrentItem] = useState<Omit<PhoneDirectoryItem, 'id'>>(() => itemToEdit || emptyItem);
-  useEffect(() => { setCurrentItem(itemToEdit || emptyItem); }, [itemToEdit, isOpen]);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setCurrentItem(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); onSave({ ...currentItem, id: itemToEdit?.id || crypto.randomUUID() }); };
-  if (!isOpen) return null;
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
-        <div className="p-6 border-b flex justify-between items-center"><h3 className="text-lg font-semibold">{itemToEdit ? 'Edit Contact' : 'Add New Contact'}</h3><button onClick={onClose} className="text-gray-400 hover:text-gray-600"><CloseIcon className="w-6 h-6" /></button></div>
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div><label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label><select name="category" value={currentItem.category} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 bg-white" required>{PHONE_CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}</select></div>
-          <div><label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label><input type="text" name="name" value={currentItem.name} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" required /></div>
-          <div><label htmlFor="badge_id" className="block text-sm font-medium text-gray-700">ID / Badge (Optional)</label><input type="text" name="badge_id" value={currentItem.badge_id} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" /></div>
-          <div><label htmlFor="extension" className="block text-sm font-medium text-gray-700">Extension</label><input type="text" name="extension" value={currentItem.extension} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" required /></div>
-          <div className="flex justify-end pt-4"><button type="button" onClick={onClose} className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium">Cancel</button><button type="submit" className="ml-3 py-2 px-4 border shadow-sm text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">Save</button></div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-const PhoneDirectoryAdminView: React.FC<{ items: PhoneDirectoryItem[]; setItems: React.Dispatch<React.SetStateAction<PhoneDirectoryItem[]>>; }> = ({ items, setItems }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [itemToEdit, setItemToEdit] = useState<PhoneDirectoryItem | null>(null);
-  const handleOpenModal = (item: PhoneDirectoryItem | null = null) => { setItemToEdit(item); setIsModalOpen(true); };
-  const handleCloseModal = () => { setIsModalOpen(false); setItemToEdit(null); };
-  const handleSaveItem = (item: PhoneDirectoryItem) => { setItems(prev => itemToEdit ? prev.map(i => i.id === item.id ? item : i) : [item, ...prev]); handleCloseModal(); };
-  const handleDeleteItem = (id: string) => { if (window.confirm('Are you sure?')) { setItems(prev => prev.filter(i => i.id !== id)); } };
-  
-  return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center"><h2 className="text-2xl font-semibold">Manage Phone Directory</h2><button onClick={() => handleOpenModal()} className="inline-flex items-center rounded-md bg-orange-600 px-4 py-2 text-sm font-medium text-white hover:bg-orange-700"><PlusIcon className="w-5 h-5 mr-2" />Add New Contact</button></div>
-      <PhoneDirectoryModal isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveItem} itemToEdit={itemToEdit} />
-      <div className="bg-white shadow overflow-hidden rounded-md"><div className="overflow-x-auto"><table className="min-w-full divide-y">
-        <thead className="bg-gray-50"><tr><th className="px-6 py-3 text-left text-xs font-medium uppercase">Category</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">Name</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">ID</th><th className="px-6 py-3 text-left text-xs font-medium uppercase">Ext</th><th className="px-6 py-3 text-right text-xs font-medium uppercase">Actions</th></tr></thead>
-        <tbody className="divide-y">{items.map((item) => (<tr key={item.id}><td className="px-6 py-4 text-sm font-medium">{item.category}</td><td className="px-6 py-4 text-sm font-medium">{item.name}</td><td className="px-6 py-4 text-sm text-gray-500">{item.badge_id}</td><td className="px-6 py-4 text-sm font-bold text-gray-800">{item.extension}</td><td className="px-6 py-4 text-right text-sm space-x-2"><button onClick={() => handleOpenModal(item)} className="text-orange-600 p-1"><EditIcon className="w-5 h-5"/></button><button onClick={() => handleDeleteItem(item.id)} className="text-red-600 p-1"><DeleteIcon className="w-5 h-5"/></button></td></tr>))}</tbody>
-      </table></div></div>
-    </div>
-  );
-};
-
-const PhoneDirectoryFinder: React.FC = () => {
-    const [isAdminView, setIsAdminView] = useState(false);
-    const [items, setItems] = useState<PhoneDirectoryItem[]>(INITIAL_PHONE_DIRECTORY_ITEMS);
-    return (
-        <>
-            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8">
-                <button onClick={() => setIsAdminView(!isAdminView)} className={`p-2 rounded-full transition-colors ${isAdminView ? 'bg-orange-600 text-white' : 'bg-gray-200 hover:bg-orange-500 hover:text-white'}`} aria-label="Toggle Admin View"><GearIcon className="w-6 h-6" /></button>
-            </div>
-            {isAdminView ? <PhoneDirectoryAdminView items={items} setItems={setItems} /> : <PhoneDirectorySearchView items={items} />}
-        </>
-    );
-};
-
-
-// --- Main App ---
-function App() {
-  const [view, setView] = useState<View>('portal');
-
-  const viewTitles: Record<View, string> = {
-    portal: 'VGHKS Assistant Portal',
-    surgical: 'Surgical Code Finder',
-    selfPaid: 'Self-Paid Item Finder',
-    phoneDirectory: 'Common Phone Directory',
-  };
-  
-  const renderView = () => {
-    switch(view) {
-        case 'surgical':
-            return <SurgicalCodeFinder />;
-        case 'selfPaid':
-            return <SelfPaidFinder />;
-        case 'phoneDirectory':
-            return <PhoneDirectoryFinder />;
-        case 'portal':
-        default:
-            return <PortalView setView={setView} />;
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-100 font-sans">
-      <header className="bg-white shadow-md sticky top-0 z-10">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center gap-4">
-              {view !== 'portal' && (
-                  <button onClick={() => setView('portal')} className="p-2 rounded-full text-gray-600 hover:bg-gray-200" aria-label="Back to Portal">
-                      <HomeIcon className="w-6 h-6" />
-                  </button>
-              )}
-              <h1 className="text-xl md:text-2xl font-bold text-primary-700">
-                {viewTitles[view]}
-              </h1>
-            </div>
+    <div className="max-w-6xl mx-auto space-y-8">
+      <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+        <h2 className="text-2xl font-bold text-green-700 mb-4 flex items-center gap-2">
+          <CreditCardIcon className="w-7 h-7" /> 自費項目查詢
+        </h2>
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
+          <div className="relative flex-grow">
+            <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input 
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="搜尋名稱或代碼..."
+              className="w-full pl-11 pr-4 py-3 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button 
+              onClick={() => setCat(null)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${!cat ? 'bg-green-600 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+            >
+              全部
+            </button>
+            {SELF_PAID_CATEGORIES.map(c => (
+              <button 
+                key={c}
+                onClick={() => setCat(c)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${cat === c ? 'bg-green-600 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+              >
+                {c}
+              </button>
+            ))}
           </div>
         </div>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filtered.length > 0 ? (
+          filtered.map(item => (
+            <div key={item.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-green-300 transition-colors">
+              <div className="flex justify-between items-start mb-2">
+                <span className="text-green-600 font-bold text-sm"><HighlightedText text={item.code} highlight={query} /></span>
+                <span className="text-xs px-2 py-1 bg-green-50 text-green-700 rounded-md font-medium">{item.category}</span>
+              </div>
+              <h4 className="text-lg font-bold text-gray-800 leading-snug"><HighlightedText text={item.name_ch} highlight={query} /></h4>
+              <p className="text-gray-500 text-sm mt-3"><HighlightedText text={item.name_en} highlight={query} /></p>
+            </div>
+          ))
+        ) : (
+          <div className="col-span-full py-12 text-center text-gray-500">查無結果</div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// --- View: Phone Directory ---
+const PhoneDirectoryView: React.FC = () => {
+  const [query, setQuery] = useState('');
+  const [cat, setCat] = useState<string | null>(null);
+
+  const filtered = useMemo(() => {
+    const categorized = cat ? INITIAL_PHONE_DIRECTORY_ITEMS.filter(i => i.category === cat) : INITIAL_PHONE_DIRECTORY_ITEMS;
+    const k = query.toLowerCase().split(' ').filter(x => x.trim());
+    if (k.length === 0) return categorized;
+    return categorized.filter(item => {
+      const text = `${item.name} ${item.extension} ${item.badge_id} ${item.category}`.toLowerCase();
+      return k.every(word => text.includes(word));
+    });
+  }, [query, cat]);
+
+  return (
+    <div className="max-w-6xl mx-auto space-y-8">
+      <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+        <h2 className="text-2xl font-bold text-orange-600 mb-4 flex items-center gap-2">
+          <PhoneIcon className="w-7 h-7" /> 常用分機查詢
+        </h2>
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
+          <div className="relative flex-grow">
+            <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input 
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="搜尋姓名、職位或分機..."
+              className="w-full pl-11 pr-4 py-3 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-orange-500"
+            />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button 
+              onClick={() => setCat(null)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${!cat ? 'bg-orange-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+            >
+              全部
+            </button>
+            {PHONE_CATEGORIES.map(c => (
+              <button 
+                key={c}
+                onClick={() => setCat(c)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${cat === c ? 'bg-orange-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {filtered.length > 0 ? (
+          filtered.map(item => (
+            <div key={item.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:border-orange-300 transition-colors">
+              <div>
+                <div className="flex justify-between items-start">
+                   <h4 className="text-lg font-bold text-gray-800"><HighlightedText text={item.name} highlight={query} /></h4>
+                   <span className="text-[10px] px-2 py-0.5 bg-orange-50 text-orange-600 rounded-full font-bold uppercase">{item.category}</span>
+                </div>
+                {item.badge_id && <p className="text-gray-400 text-xs mt-1">ID: {item.badge_id}</p>}
+              </div>
+              <div className="mt-6 flex items-baseline justify-between">
+                <span className="text-gray-400 text-xs uppercase font-bold tracking-wider">Ext</span>
+                <span className="text-3xl font-black text-orange-600 tabular-nums tracking-tighter"><HighlightedText text={item.extension} highlight={query} /></span>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="col-span-full py-12 text-center text-gray-500">查無結果</div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// --- Main App ---
+const App: React.FC = () => {
+  const [view, setView] = useState<View>('portal');
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+          <button 
+            onClick={() => setView('portal')}
+            className="flex items-center gap-3 group"
+          >
+            <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform">
+              <DocumentIcon className="w-6 h-6" />
+            </div>
+            <span className="font-bold text-xl text-gray-800 tracking-tight">VGHKS Assistant</span>
+          </button>
+          
+          <nav className="hidden md:flex items-center gap-1">
+            <button onClick={() => setView('portal')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${view === 'portal' ? 'text-primary-600 bg-primary-50' : 'text-gray-500 hover:bg-gray-50'}`}>首頁</button>
+            <button onClick={() => setView('surgical')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${view === 'surgical' ? 'text-primary-600 bg-primary-50' : 'text-gray-500 hover:bg-gray-50'}`}>手術碼</button>
+            <button onClick={() => setView('selfPaid')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${view === 'selfPaid' ? 'text-green-600 bg-green-50' : 'text-gray-500 hover:bg-gray-50'}`}>自費</button>
+            <button onClick={() => setView('phoneDirectory')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${view === 'phoneDirectory' ? 'text-orange-600 bg-orange-50' : 'text-gray-500 hover:bg-gray-50'}`}>分機</button>
+          </nav>
+
+          {view !== 'portal' && (
+            <button 
+              onClick={() => setView('portal')}
+              className="p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-primary-600 hover:text-white transition-all shadow-sm"
+              title="回首頁"
+            >
+              <HomeIcon className="w-5 h-5" />
+            </button>
+          )}
+        </div>
       </header>
-      <main className="container mx-auto p-4 sm:p-6 lg:p-8 relative">
-        {renderView()}
+
+      <main className="flex-grow p-4 md:p-8">
+        {view === 'portal' && <PortalView setView={setView} />}
+        {view === 'surgical' && <SurgicalSearchView />}
+        {view === 'selfPaid' && <SelfPaidSearchView />}
+        {view === 'phoneDirectory' && <PhoneDirectoryView />}
       </main>
-       <footer className="bg-white mt-8 py-4">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
-          <p>&copy; {new Date().getFullYear()} VGHKS Assistant. All data is stored locally in your browser.</p>
+
+      <footer className="bg-white border-t border-gray-100 py-6">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className="text-gray-400 text-xs tracking-wide">
+            &copy; {new Date().getFullYear()} VGHKS Assistant Platform. 資料即時讀取原始檔，確保最新內容。
+          </p>
         </div>
       </footer>
     </div>
   );
-}
+};
 
-const rootElement = document.getElementById('root');
-if (!rootElement) throw new Error("Could not find root element");
-const root = ReactDOM.createRoot(rootElement);
-root.render(<React.StrictMode><App /></React.StrictMode>);
+// --- Entry Point ---
+const rootEl = document.getElementById('root');
+if (rootEl) {
+  const root = ReactDOM.createRoot(rootEl);
+  root.render(<App />);
+}
