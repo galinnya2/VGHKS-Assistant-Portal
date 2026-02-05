@@ -1,58 +1,50 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VGHKS 醫療助手平台</title>
+    <title>VGHKS Assistant Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              primary: {
-                "50": "#eff6ff", "100": "#dbeafe", "200": "#bfdbfe", "300": "#93c5fd",
-                "400": "#60a5fa", "500": "#3b82f6", "600": "#2563eb", "700": "#1d4ed8",
-                "800": "#1e40af", "900": "#1e3a8a", "950": "#172554"
-              }
+              primary: {"50":"#eff6ff","100":"#dbeafe","200":"#bfdbfe","300":"#93c5fd","400":"#60a5fa","500":"#3b82f6","600":"#2563eb","700":"#1d4ed8","800":"#1e40af","900":"#1e3a8a","950":"#172554"}
             }
           }
         }
       }
     </script>
+    <!-- Add Babel Standalone for in-browser JSX/TSX transformation -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- 
+      This is the final, clean, and correct importmap.
+      It contains ONLY the necessary and working URLs for React.
+    -->
     <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@18.2.0",
-    "react-dom": "https://esm.sh/react-dom@18.2.0",
-    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/"
+    "react": "https://esm.sh/react@19.0.0-rc.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0-rc.0/client",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
   }
 }
 </script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
-      body {
-        font-family: 'Noto Sans TC', sans-serif;
-        background-color: #f8fafc;
-      }
-      .glass-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(226, 232, 240, 1);
-      }
-      mark {
-        background-color: #fef08a;
-        color: #854d0e;
-        padding: 0 2px;
-        border-radius: 2px;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-gray-50">
+    <div id="root">
+      <div class="flex items-center justify-center min-h-screen">
+        <div class="text-center p-8">
+          <h1 class="text-2xl font-bold text-gray-700">Loading Application...</h1>
+          <p class="text-gray-500 mt-2">If you see this for more than a few seconds, there might be a script error. Please check the browser's developer console (F12).</p>
+        </div>
+      </div>
+    </div>
+    <!-- Tell Babel to transpile our single, consolidated script file -->
     <script type="text/babel" data-type="module" data-presets="react,typescript" src="./index.tsx"></script>
-  </body>
+  <script type="module" src="/index.tsx"></script>
+</body>
 </html>
