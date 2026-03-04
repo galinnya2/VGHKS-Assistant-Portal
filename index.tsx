@@ -451,9 +451,7 @@ const INITIAL_SELF_PAID_ITEMS: SelfPaidItem[] = [
     { id: '98668', category: '婦女泌尿', code: '98668', name_ch: '＂愛沛斯＂倍樂適特骨盆底修護網片', name_en: 'Apex Pelvic Floor Repair System' }
     { id: '98666', category: '婦女泌尿', code: '98666', name_ch: '愛適達懸吊帶系統', name_en: 'I-STOP SLING SYSTEM' }
     { id: '98667', category: '婦女泌尿', code: '93586', name_ch: '愛沛斯愛適達迷你懸吊手術系統', name_en: ' I-STOP (MINI-STOP) Sling System' }
-    { id: '93586', category: '婦女泌尿', code: '98568', name_ch: '柯惠單一使用可吸收固定釘', name_en: '"Covidien" Single Use Absorbable Fixation Tack' }
-    { id: '98568', category: '婦女泌尿', code: '98568', name_ch: '肯特利壓縮套/促進雙腿血液回流/氣壓腳套', name_en: 'KENDALL SCD Sequential Compression Comfort Sleeves' }
-    { id: '98568', category: '婦女泌尿', code: '98568', name_ch: '肯特利壓縮套/促進雙腿血液回流/氣壓腳套', name_en: 'KENDALL SCD Sequential Compression Comfort Sleeves' },
+    { id: '93586', category: '婦女泌尿', code: '98568', name_ch: '柯惠單一使用可吸收固定釘', name_en: '"Covidien" Single Use Absorbable Fixation Tack' },
 ];
 
 const PHONE_CATEGORIES = ["主治醫師", "住院醫師", "專科護理師", "檢查單位", "門診", "產房", "個管師", "急診"];
