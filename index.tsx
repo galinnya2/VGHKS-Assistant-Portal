@@ -364,7 +364,7 @@ const INITIAL_SURGICAL_CODES: SurgicalCode[] = [
     { id: '77830J', code: '77830J', name_ch: '近紅外線內視鏡輔助微創手術 / 前哨淋巴結', name_en: 'Near infrared assisted endoscopic surgery / ICG / Sentinel LN' },
 ];
 
-const CATEGORIES = ["手術器械", "止血", "防沾黏", "傷口敷料", "縫線", "病理", "HIPEC", "檢體袋", "傷口撐開器", "其他"];
+const CATEGORIES = ["手術器械", "止血", "防沾黏", "傷口敷料", "縫線", "病理", "HIPEC", "檢體袋", "傷口撐開器", "婦女泌尿", "其他"];
 
 const INITIAL_SELF_PAID_ITEMS: SelfPaidItem[] = [
     { id: '97123', category: '手術器械', code: '97123', name_ch: '雙極雷聲刀/雷神刀', name_en: 'Thunderbeat' },
@@ -445,7 +445,13 @@ const INITIAL_SELF_PAID_ITEMS: SelfPaidItem[] = [
     { id: '96711', category: '傷口撐開器', code: '96711', name_ch: '艾力克斯腹壁牽引器(L)/剖腹用/C/S', name_en: 'Alexis(L)' },
     { id: '96716', category: '傷口撐開器', code: '96716', name_ch: '艾力克斯腹壁牽引器(XS)', name_en: 'Alexis(XS)' },
     { id: '55900', category: '其他', code: '55900', name_ch: '3D腹腔鏡', name_en: '3D Laparoscopy' },
-    { id: '94059', category: '其他', code: '94059', name_ch: '肯特利壓縮套/促進雙腿血液回流/氣壓腳套', name_en: 'KENDALL SCD Sequential Compression Comfort Sleeves' },
+    { id: '94059', category: '其他', code: '94059', name_ch: '肯特利壓縮套/促進雙腿血液回流/氣壓腳套', name_en: 'KENDALL SCD Sequential Compression Comfort Sleeves' }
+    { id: '98568', category: '婦女泌尿', code: '98568', name_ch: '黛娜美女性尿失禁手術用網片', name_en: 'Dynamesh sling' }
+    { id: '98595', category: '婦女泌尿', code: '98595', name_ch: '黛娜美女性骨盆底修復網片', name_en: 'Dynamesh Y mesh' }
+    { id: '98668', category: '婦女泌尿', code: '98668', name_ch: '＂愛沛斯＂倍樂適特骨盆底修護網片', name_en: 'Apex Pelvic Floor Repair System' }
+    { id: '98666', category: '婦女泌尿', code: '98666', name_ch: '愛適達懸吊帶系統', name_en: 'I-STOP SLING SYSTEM' }
+    { id: '98667', category: '婦女泌尿', code: '93586', name_ch: '愛沛斯愛適達迷你懸吊手術系統', name_en: ' I-STOP (MINI-STOP) Sling System' }
+    { id: '93586', category: '婦女泌尿', code: '98568', name_ch: '柯惠單一使用可吸收固定釘', name_en: '"Covidien" Single Use Absorbable Fixation Tack' },,
 ];
 
 const PHONE_CATEGORIES = ["主治醫師", "住院醫師", "專科護理師", "檢查單位", "門診", "產房", "個管師", "急診"];
@@ -458,17 +464,15 @@ const INITIAL_PHONE_DIRECTORY_ITEMS: PhoneDirectoryItem[] = [
     { id: '3837B', category: '主治醫師', name: '林立德', badge_id: '3837B', extension: '70661' },
     { id: '3578J', category: '主治醫師', name: '崔冠濠', badge_id: '3578J', extension: '70653' },
     { id: '0158E', category: '主治醫師', name: '蔣安仁', badge_id: '0158E', extension: '70668' },
-    { id: '4618D', category: '主治醫師', name: '蔡曉文', badge_id: '4618D', extension: '70198' },
     { id: '4481D', category: '主治醫師', name: '陳其葳', badge_id: '4481D', extension: '70043' },
     { id: 'H048D', category: '主治醫師', name: '林佩萱', badge_id: 'H048D', extension: '70674' },
     { id: 'F964A', category: '主治醫師', name: '陳昱蓁', badge_id: 'F964A', extension: '70666' },
     { id: '4861F', category: '主治醫師', name: '蔡祥維', badge_id: '4861F', extension: '70412' },
     { id: 'A067J', category: '主治醫師', name: '林柏文', badge_id: 'A067J', extension: '70597' },
     { id: 'A543G', category: '主治醫師', name: '周靜汶', badge_id: 'A543G', extension: '70161' },
+    { id: 'A294J', category: '主治醫師', name: '李宜姍', badge_id: 'A294J', extension: '70511' },
+    { id: 'A295G', category: '主治醫師', name: '許乃元', badge_id: 'A295G', extension: '70513' },
     { id: 'H056E', category: '住院醫師', name: '宋潔', badge_id: 'H056E', extension: '70478' },
-    { id: 'A183E', category: '住院醫師', name: '劉相宜', badge_id: 'A183E', extension: '70694' },
-    { id: 'A294J', category: '住院醫師', name: '李宜姍', badge_id: 'A294J', extension: '70511' },
-    { id: 'A295G', category: '住院醫師', name: '許乃元', badge_id: 'A295G', extension: '70513' },
     { id: 'A385E', category: '住院醫師', name: '魯羽珈', badge_id: 'A385E', extension: '70068' },
     { id: 'H752H', category: '住院醫師', name: '嚴心勵', badge_id: 'H752H', extension: '70063' },
     { id: 'A507E', category: '住院醫師', name: '黃雙雙', badge_id: 'A507E', extension: '70864' },
