@@ -554,7 +554,8 @@ const PortalView: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
     return (
         <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-800 mb-8">功能選單</h2>
-            <div className="flex flex-col md:flex-row justify-center items-center gap-6">
+            {/* 加入 flex-wrap 讓按鈕變多時可以自動換行，不會擠在一起 */}
+            <div className="flex flex-col md:flex-row flex-wrap justify-center items-center gap-6">
                 <button 
                     onClick={() => setView('surgical')}
                     className="w-64 bg-primary-600 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-primary-700 transition-transform transform hover:scale-105"
@@ -574,6 +575,17 @@ const PortalView: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
                     <PhoneIcon className="w-6 h-6" />
                     常用電話查詢
                 </button>
+                
+                {/* 新增的「接生紀錄輸入系統」按鈕 */}
+                {/* google表單 位址貼在下方 */}
+                <a 
+                    href="https://script.google.com/macros/s/AKfycbwMwAX9FNj0wmo04unSBj1RdW8PNjgzrsqSfrtyO-myZFTR_HazN11P6a8gxYeQoMU_/exec"  
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-64 bg-pink-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-pink-600 transition-transform transform hover:scale-105 flex justify-center items-center text-center no-underline"
+                >
+                    接生紀錄輸入系統
+                </a>
             </div>
         </div>
     );
