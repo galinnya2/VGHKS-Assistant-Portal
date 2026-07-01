@@ -579,7 +579,7 @@ const PortalView: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
                 {/* 新增的「接生紀錄輸入系統」按鈕 */}
                 {/* google表單 位址貼在下方 */}
                 <a 
-                    href="https://script.google.com/macros/s/AKfycbzJATlYqqYvDUItIypqfUTQ0tr3OzR0n9Tdvhwa3i72CPAYt1MUm8WrVd1VC4RKTwsY/exec"  
+                    href="https://script.google.com/macros/s/AKfycbyLqGUz8Qv91xvHFOwASa9TLBOw3HuiL85_4OlIsvbFLNGAzWcf5zbuCDSN2O9bF5wa/exec"  
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="w-64 bg-pink-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-pink-600 transition-transform transform hover:scale-105 flex justify-center items-center text-center no-underline"
