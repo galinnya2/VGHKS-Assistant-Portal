@@ -476,7 +476,7 @@ const INITIAL_PHONE_DIRECTORY_ITEMS: PhoneDirectoryItem[] = [
     { id: 'H752H', category: '住院醫師', name: '嚴心勵', badge_id: 'H752H', extension: '70063' },
     { id: 'A507E', category: '住院醫師', name: '黃雙雙', badge_id: 'A507E', extension: '70864' },
     { id: 'A636F', category: '住院醫師', name: '顏嫚萱', badge_id: 'A636F', extension: '70596' },
-    { id: 'U546', category: '住院醫師', name: '許嘉芸', badge_id: 'U546', extension: '70247' },
+    { id: 'U546', category: '住院醫師', name: '許嘉芸', badge_id: 'U546', extension: '70694' },
     { id: 'U611', category: '住院醫師', name: '許湘鈴', badge_id: 'U611', extension: '70539' },
     { id: 'U580', category: '住院醫師', name: '方瑄珮', badge_id: 'U580', extension: '79538' },
     { id: '0262', category: '專科護理師', name: '李青萍', badge_id: '0262', extension: '79597' },
