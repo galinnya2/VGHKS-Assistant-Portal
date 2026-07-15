@@ -364,7 +364,7 @@ const INITIAL_SURGICAL_CODES: SurgicalCode[] = [
     { id: '77830J', code: '77830J', name_ch: '近紅外線內視鏡輔助微創手術 / 前哨淋巴結', name_en: 'Near infrared assisted endoscopic surgery / ICG / Sentinel LN' },
 ];
 
-const CATEGORIES = ["手術器械", "止血", "防沾黏", "傷口敷料", "縫線", "病理", "HIPEC", "檢體袋", "傷口撐開器", "婦女泌尿", "其他"];
+const CATEGORIES = ["手術器械", "止血", "防沾黏", "關傷口用物", "縫線", "病理", "HIPEC", "檢體袋", "傷口撐開器", "婦女泌尿", "傷口敷料", "其他"];
 
 const INITIAL_SELF_PAID_ITEMS: SelfPaidItem[] = [
     { id: '97123', category: '手術器械', code: '97123', name_ch: '雙極雷聲刀/雷神刀', name_en: 'Thunderbeat' },
@@ -405,20 +405,20 @@ const INITIAL_SELF_PAID_ITEMS: SelfPaidItem[] = [
     { id: '97203', category: '防沾黏', code: '97203', name_ch: '適福生化吸收膜/糖果紙/糯米紙6片', name_en: 'Seprafilm 6片' },
     { id: '98541', category: '防沾黏', code: '98541', name_ch: '玻達癒', name_en: 'Protahere' },
     { id: '98545', category: '防沾黏', code: '98545', name_ch: '百特克沾黏溶液/水', name_en: 'Adept' },
-    { id: '97194', category: '傷口敷料', code: '97194', name_ch: '速原水性創傷敷料5mL', name_en: 'NewEpi 5ml' },
-    { id: '97196', category: '傷口敷料', code: '97196', name_ch: '速原水性創傷敷料 10mL', name_en: 'NewEpi 10ml' },
-    { id: '97092', category: '傷口敷料', code: '97092', name_ch: '癒立安膠原蛋白敷料', name_en: 'Healiaid' },
-    { id: '97378', category: '傷口敷料', code: '97378', name_ch: '保盛液態敷料 6mL', name_en: 'JeanCean 6mL' },
-    { id: '93082', category: '傷口敷料', code: '93082', name_ch: '皮膚釘', name_en: 'Skin staples' },
-    { id: '92121', category: '傷口敷料', code: '92121', name_ch: '美容膠', name_en: '3M skin tape' },
-    { id: '93095', category: '傷口敷料', code: '93095', name_ch: '愛惜康得美棒皮膚黏膠劑', name_en: 'Dermabond' },
-    { id: '93109', category: '傷口敷料', code: '93109', name_ch: '愛惜康得美棒皮膚接合自黏網片/傷口Mesh + 膠水', name_en: 'Dermabond + mesh' },
-    { id: '98540', category: '傷口敷料', code: '98540', name_ch: '柏朗組織黏膠', name_en: 'Histoacryl' },
-    { id: '93103', category: '傷口敷料', code: '93103', name_ch: '速近傷口黏膠劑', name_en: 'Surgiseal' },
-    { id: '93115', category: '傷口敷料', code: '93115', name_ch: '荷美敷高黏度組織黏著劑', name_en: 'TissueAid' },
-    { id: '93121', category: '傷口敷料', code: '93121', name_ch: '艾曼斯立可棒皮膚黏膠劑', name_en: 'LiquiBand' },
-    { id: '93142', category: '傷口敷料', code: '93142', name_ch: '“百麗”愛麗敷皮膚黏膠', name_en: 'Exofin Topical Skin Adhesive' },
-    { id: '97406', category: '傷口敷料', code: '97406', name_ch: '舒洙水性創傷敷料 10mL', name_en: 'LACTERA liquid wound dressing (Non-Sterile) 10mL' },
+    { id: '97194', category: '關傷口用物', code: '97194', name_ch: '速原水性創傷敷料5mL', name_en: 'NewEpi 5ml' },
+    { id: '97196', category: '關傷口用物', code: '97196', name_ch: '速原水性創傷敷料 10mL', name_en: 'NewEpi 10ml' },
+    { id: '97092', category: '關傷口用物', code: '97092', name_ch: '癒立安膠原蛋白敷料', name_en: 'Healiaid' },
+    { id: '97378', category: '關傷口用物', code: '97378', name_ch: '保盛液態敷料 6mL', name_en: 'JeanCean 6mL' },
+    { id: '93082', category: '關傷口用物', code: '93082', name_ch: '皮膚釘', name_en: 'Skin staples' },
+    { id: '92121', category: '關傷口用物', code: '92121', name_ch: '美容膠', name_en: '3M skin tape' },
+    { id: '93095', category: '關傷口用物', code: '93095', name_ch: '愛惜康得美棒皮膚黏膠劑', name_en: 'Dermabond' },
+    { id: '93109', category: '關傷口用物', code: '93109', name_ch: '愛惜康得美棒皮膚接合自黏網片/傷口Mesh + 膠水', name_en: 'Dermabond + mesh' },
+    { id: '98540', category: '關傷口用物', code: '98540', name_ch: '柏朗組織黏膠', name_en: 'Histoacryl' },
+    { id: '93103', category: '關傷口用物', code: '93103', name_ch: '速近傷口黏膠劑', name_en: 'Surgiseal' },
+    { id: '93115', category: '關傷口用物', code: '93115', name_ch: '荷美敷高黏度組織黏著劑', name_en: 'TissueAid' },
+    { id: '93121', category: '關傷口用物', code: '93121', name_ch: '艾曼斯立可棒皮膚黏膠劑', name_en: 'LiquiBand' },
+    { id: '93142', category: '關傷口用物', code: '93142', name_ch: '“百麗”愛麗敷皮膚黏膠', name_en: 'Exofin Topical Skin Adhesive' },
+    { id: '97406', category: '關傷口用物', code: '97406', name_ch: '舒洙水性創傷敷料 10mL', name_en: 'LACTERA liquid wound dressing (Non-Sterile) 10mL' },
     { id: '93556', category: '縫線', code: '93556', name_ch: '柯惠可吸收傷口縫合裝置', name_en: 'VLOC/V-LOC/V LOC' },
     { id: '93093', category: '縫線', code: '93093', name_ch: '魚骨線(單頭)/愛惜康外科用可吸收傷口吻合裝置(單頭針)', name_en: 'Stratafix' },
     { id: '93094', category: '縫線', code: '93094', name_ch: '魚骨線(雙頭)/愛惜康外科用可吸收傷口吻合裝置(雙頭針)', name_en: 'Stratafix' },
@@ -452,6 +452,20 @@ const INITIAL_SELF_PAID_ITEMS: SelfPaidItem[] = [
     { id: '98666', category: '婦女泌尿', code: '98666', name_ch: '愛適達懸吊帶系統', name_en: 'I-STOP SLING SYSTEM' },
     { id: '98667', category: '婦女泌尿', code: '93586', name_ch: '愛沛斯愛適達迷你懸吊手術系統', name_en: ' I-STOP (MINI-STOP) Sling System' },
     { id: '93586', category: '婦女泌尿', code: '98568', name_ch: '柯惠單一使用可吸收固定釘', name_en: '"Covidien" Single Use Absorbable Fixation Tack' },
+    { id: '97862', category: '傷口敷料', code: '97862', name_ch: '赫麗敷水凝膠傷口敷料', name_en: '赫麗敷水膠手術傷口敷料 (滅菌)' },
+    { id: '97863', category: '傷口敷料', code: '97863', name_ch: '赫麗敷水凝膠傷口敷料', name_en: '赫麗敷水膠手術傷口敷料 (滅菌)' },
+    { id: '97864', category: '傷口敷料', code: '97864', name_ch: '赫麗敷水凝膠傷口敷料', name_en: '赫麗敷水膠手術傷口敷料 (滅菌)' },
+    { id: '97866', category: '傷口敷料', code: '97866', name_ch: '赫麗敷水凝膠傷口敷料', name_en: '赫麗敷水膠手術傷口敷料 (滅菌)' },
+    { id: '97381', category: '傷口敷料', code: '97381', name_ch: '康威多愛膚超薄型敷料（人工皮）１０ｘ１', name_en: '' },
+    { id: '92121', category: '傷口敷料', code: '92121', name_ch: '免縫膠帶', name_en: '3M skin tape' },
+    { id: '97330', category: '傷口敷料', code: '97330', name_ch: '赫麗敷疤痕貼片５ｘ５ｃｍ', name_en: '' },
+    { id: '97331', category: '傷口敷料', code: '97331', name_ch: '赫麗敷疤痕貼片５ｘ１４ｃｍ', name_en: '' },
+    { id: '97333', category: '傷口敷料', code: '97333', name_ch: '赫麗敷疤痕貼片７ｘ１０ｃｍ', name_en: '' },
+    { id: '97332', category: '傷口敷料', code: '97332', name_ch: '赫麗敷疤痕貼片６ｘ１９．５ｃ', name_en: '' },
+    { id: '98596', category: '傷口敷料', code: '98596', name_ch: '艾絲沛冷敷墊', name_en: '' },
+    { id: '94076', category: '傷口敷料', code: '94076', name_ch: '維凝敷矽膠疤痕貼片３ｘ１６ｃｍ（攜回使用', name_en: '' },
+    { id: '94075', category: '傷口敷料', code: '94075', name_ch: '維凝敷矽膠疤痕貼片３．２ｘ３．２ｃｍ（攜', name_en: '' },
+    { id: '97222', category: '傷口敷料', code: '97222', name_ch: '美皮豐疤痕護理膠片４Ｘ３０ＣＭ', name_en: '' },
 ];
 
 const PHONE_CATEGORIES = ["主治醫師", "住院醫師", "專科護理師", "檢查單位", "門診", "產房", "個管師", "急診"];
@@ -576,8 +590,7 @@ const PortalView: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
                     常用電話查詢
                 </button>
                 
-                {/* 新增的「接生紀錄輸入系統」按鈕 */}
-                {/* google表單 位址貼在下方 */}
+                {/* 原有的「接生紀錄輸入系統」按鈕 */}
                 <a 
                     href="https://script.google.com/macros/s/AKfycbyLqGUz8Qv91xvHFOwASa9TLBOw3HuiL85_4OlIsvbFLNGAzWcf5zbuCDSN2O9bF5wa/exec"  
                     target="_blank" 
@@ -585,6 +598,16 @@ const PortalView: React.FC<{ setView: (view: View) => void }> = ({ setView }) =>
                     className="w-64 bg-pink-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-pink-600 transition-transform transform hover:scale-105 flex justify-center items-center text-center no-underline"
                 >
                     接生紀錄輸入系統
+                </a>
+
+                {/* 新增的「婦產科手術排程」按鈕 (設定為紫色) */}
+                <a 
+                    href="https://script.google.com/macros/s/AKfycbz5OgWrl1bTGwG4ah422O9tRGbYHBAc4UwXVn3L0PqBuXI4vu_tt7N0oFeidG5n1Is/exec" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-64 bg-purple-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:bg-purple-600 transition-transform transform hover:scale-105 flex justify-center items-center text-center no-underline"
+                >
+                    婦產科手術排程
                 </a>
             </div>
         </div>
