@@ -457,7 +457,6 @@ const INITIAL_SELF_PAID_ITEMS: SelfPaidItem[] = [
     { id: '97864', category: '傷口敷料', code: '97864', name_ch: '赫麗敷水凝膠傷口敷料', name_en: '7x10cm' },
     { id: '97866', category: '傷口敷料', code: '97866', name_ch: '赫麗敷水凝膠傷口敷料', name_en: '6x19.5cm' },
     { id: '97381', category: '傷口敷料', code: '97381', name_ch: '康威多愛膚超薄型敷料（人工皮）', name_en: '' },
-    { id: '92121', category: '傷口敷料', code: '92121', name_ch: '免縫膠帶', name_en: '3M skin tape' },
     { id: '97330', category: '傷口敷料', code: '97330', name_ch: '赫麗敷疤痕貼片', name_en: '5x5cm' },
     { id: '97331', category: '傷口敷料', code: '97331', name_ch: '赫麗敷疤痕貼片', name_en: '5x14cm' },
     { id: '97333', category: '傷口敷料', code: '97333', name_ch: '赫麗敷疤痕貼片', name_en: '7x10cm' },
